@@ -2,7 +2,10 @@ import
 {
     STORY_LOAD,
     STORY_LOAD_SUCCESS,
-    STORY_LOAD_FAILURE
+    STORY_LOAD_FAILURE,
+    STORY_COMMENT_LOAD,
+    STORY_COMMENT_LOAD_SUCCESS,
+    STORY_COMMENT_LOAD_FAILURE
 } from '../action/story'
 
 import update from "react-addons-update"
@@ -10,8 +13,12 @@ import update from "react-addons-update"
 const initialState = {
     story: {
         status: "INIT",
-        data:[]
+        data: [],
     },
+    comment: {
+        status: "INIT",
+        list: [],
+    }
 }
 export default function story(state = initialState, action) {
     switch (action.type) {
@@ -25,7 +32,7 @@ export default function story(state = initialState, action) {
             return update(state, {
                 story: {
                     status: {$set: "SUCCESS"},
-                    data:{$set:action.data}
+                    data: {$set: action.data},
                 }
             })
         case STORY_LOAD_FAILURE:
@@ -34,6 +41,26 @@ export default function story(state = initialState, action) {
                     status: {$set: "FAILURE"}
                 }
             })
+        case STORY_COMMENT_LOAD:
+            return update(state, {
+                comment: {
+                    status: {$set: "WAITING"}
+                }
+            })
+        case STORY_COMMENT_LOAD_SUCCESS:
+            return update(state, {
+                comment: {
+                    status: {$set: "SUCCESS"},
+                    list: {$set: action.list},
+                }
+            })
+        case STORY_COMMENT_LOAD_FAILURE:
+            return update(state, {
+                comment: {
+                    status: {$set: "FAILURE"}
+                }
+            })
+
         default:
             return state;
     }

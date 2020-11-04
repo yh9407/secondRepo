@@ -1,48 +1,30 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {storyLoader} from "../../action/story";
+import {storyCommentLoader, storyLoader} from "../../action/story";
 import {useDispatch} from "react-redux";
 import {
     View,
     Text,
-    TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import {useSelector} from "react-redux";
 import {Card} from 'react-native-paper';
-import axios from "axios"
 import {Image} from "react-native-paper/src/components/Avatar/Avatar";
+import CommentInput from "./CommentInput";
 
 
-const StoryDetail = ({storyId, setOnClickStory, onClickStory}) => {
-    const [loading, setLoading] = useState(false)
-    const [commentList, setCommentList] = useState([]);
+
+const StoryDetail = () => {
+    const dispatch = useDispatch();
     const DetailData = useSelector((state) => state.story.story.data)
-    const DataStatus = useSelector((state) => state.story.story.status)
-    const init = useRef(true);
-    const Comment_id = DetailData.id
+    const CommentData = useSelector((state)=> state.story.comment.list);
+    const CommentStatus = useSelector((state)=> state.comment.comment.status);
 
-    const CommentLoadHandler = () => {
-        const loadInit = async () => {
-            setLoading(true);
-            const initData = await axios.get(`http://121.144.131.216:3000/comment/list/${Comment_id}/1`)
-            setCommentList(initData.data.list)
-        }
-        useEffect(() => {
-            if (init.current) {
-                loadInit();
-                init.current = false;
-            }
-        }, [onClickStory])
-        return null;
-    }
-    console.log(DataStatus)
-    console.log(DetailData.Story_Items)
-
-
-
-
+    useEffect(() => {
+        dispatch(storyCommentLoader(DetailData.id))
+    }, [DetailData.id,CommentStatus])
+    console.log(CommentStatus)
     return (
-        <>
-            <CommentLoadHandler/>
+        <ScrollView>
             <View>
                 <Text>
                     제목 = {DetailData.Story_Items[0].item_name}
@@ -77,7 +59,7 @@ const StoryDetail = ({storyId, setOnClickStory, onClickStory}) => {
                     조회수 : {DetailData.visited}
                 </Text>
                 <View>
-                    {commentList !== undefined && commentList.map((comment, key) => {
+                    {CommentData !== [] && CommentData.map((comment, key) => {
                         return <View key={key}>
                             <Text>{comment.User.nickname}</Text>
                             <Image source={{
@@ -90,14 +72,8 @@ const StoryDetail = ({storyId, setOnClickStory, onClickStory}) => {
                     })}
                 </View>
             </View>
-
-            <TouchableOpacity onPress={() =>
-                setOnClickStory(false)
-            }><Text>돌아가기</Text>
-
-            </TouchableOpacity>
-
-        </>
+            <CommentInput story_id={DetailData.id}/>
+        </ScrollView>
     )
 }
 export default StoryDetail;

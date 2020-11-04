@@ -16,6 +16,7 @@ import {View, Text} from 'react-native';
 import {useSelector} from "react-redux";
 import {Image} from "react-native-paper/src/components/Avatar/Avatar";
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import StoryDetail from "./screen/StoryScreen/StoryDetail";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -114,6 +115,9 @@ function AppStack() {
                         : <Stack.Screen name="SignIn" component={SignIn}
                                         options={{title: "로그인화면"}}/>}
                     <Stack.Screen name="Home" component={BottomTabNav}/>
+                    {/*<Stack.Screen name="Story" component={StoryScreen}/>*/}
+                    <Stack.Screen name="StoryDetail" component={StoryDetail}/>
+
                 </Stack.Navigator>
             </NavigationContainer>
 

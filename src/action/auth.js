@@ -16,7 +16,7 @@ export const signInFailure = () => {
 export const signInRequest = (user) => async (dispatch) => {
     dispatch(signInStart());
     await axios
-        .post("http://121.144.131.216:3000/auth/signIn",{...user})
+        .post("http://192.168.0.59:3000/auth/signIn",{...user})
         .then((response) => {
             if (response.data.success === 1) {
                 dispatch(signInSuccess(response.data));

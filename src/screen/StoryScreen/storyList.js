@@ -6,19 +6,23 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {Card} from 'react-native-paper';
+import StoryDetail from "./StoryDetail"
 import {storyLoader} from "../../action/story";
+import {useDispatch, useSelector} from "react-redux";
 
 
-const StoryList = ({storyType, changed, setChanged, setStoryId, setOnClickStory}) => {
+const StoryList = ({props,storyType, changed, setChanged, setOnClickStory}) => {
     const [list, setList] = useState([]);
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const DetailData = useSelector((state) => state.story.story.data)
     const init = useRef(true);
-    const [clickedStory, setClickedStory] = useState(false);
+
 
     const LoadHandler = () => {
         const loadInit = async () => {
             setLoading(true);
-            const initData = await axios.get(`http://121.144.131.216:3000/story/list/1?type=${storyType}`)
+            const initData = await axios.get(`http://192.168.0.59:3000/story/list/1?type=${storyType}`)
             setList(initData.data.list);
         }
 
@@ -30,6 +34,7 @@ const StoryList = ({storyType, changed, setChanged, setStoryId, setOnClickStory}
         }, [])
         return null;
     }
+
     useEffect(() => {
         if (changed) {
             setChanged(false)
@@ -46,8 +51,10 @@ const StoryList = ({storyType, changed, setChanged, setStoryId, setOnClickStory}
                         <Text>
                             {story.story_title}
                         </Text>
-                        <TouchableOpacity onPress={() => {
-                            setStoryId(story.id)
+                        <TouchableOpacity onPress={async () => {
+                            await dispatch(storyLoader(story.id))
+                            if(DetailData!==undefined){
+                             props.navigation.navigate("StoryDetail")}
                             setOnClickStory(true)
                         }}>
                             <Card>
