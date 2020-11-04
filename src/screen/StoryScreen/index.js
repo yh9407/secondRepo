@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import StoryNavScreen from "./storyNav"
-import {View, ScrollView,Text} from "react-native";
+import {View, ScrollView,Text,FlatList} from "react-native";
 import StoryList from "./storyList";
 const StoryScreen = (props) => {
     const [changed, setChanged] = useState(false);
@@ -8,13 +8,14 @@ const StoryScreen = (props) => {
     const [onClickStory, setOnClickStory] = useState(false)
     return (
         <>
+
             <View>
                 <StoryNavScreen
                     storyType={storyType}
                     setStoryType={setStoryType}
                     setChanged={setChanged}/>
             </View>
-            <ScrollView>
+            <View>
 
                 <StoryList
                     props={props}
@@ -22,7 +23,7 @@ const StoryScreen = (props) => {
                     changed={changed}
                     setOnClickStory={setOnClickStory}
                     setChanged={setChanged}/>
-            </ScrollView>
+            </View>
         </>
     )
 }

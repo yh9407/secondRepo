@@ -6,6 +6,7 @@ import MyPageScreen from "./screen/MyPageScreen";
 import SignIn from "./screen/SignUpScreen/signin";
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer } from "@react-navigation/native";
+import FlatListPractice from "./screen/StoryScreen/flatListPractice"
 import {
     createDrawerNavigator,
     DrawerContentScrollView,
@@ -117,6 +118,7 @@ function AppStack() {
                     <Stack.Screen name="Home" component={BottomTabNav}/>
                     {/*<Stack.Screen name="Story" component={StoryScreen}/>*/}
                     <Stack.Screen name="StoryDetail" component={StoryDetail}/>
+                    <Stack.Screen name="FlatListPractice" component={FlatListPractice}/>
 
                 </Stack.Navigator>
             </NavigationContainer>
