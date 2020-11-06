@@ -18,6 +18,7 @@ import {useSelector} from "react-redux";
 import {Image} from "react-native-paper/src/components/Avatar/Avatar";
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import StoryDetail from "./screen/StoryScreen/StoryDetail";
+import Exam from "./screen/StoryScreen/Exam";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -119,6 +120,7 @@ function AppStack() {
                     {/*<Stack.Screen name="Story" component={StoryScreen}/>*/}
                     <Stack.Screen name="StoryDetail" component={StoryDetail}/>
                     <Stack.Screen name="FlatListPractice" component={FlatListPractice}/>
+                    <Stack.Screen name="Exam" component={Exam}/>
 
                 </Stack.Navigator>
             </NavigationContainer>

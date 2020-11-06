@@ -1,28 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import StoryNavScreen from "./storyNav"
-import {View, ScrollView,Text,FlatList} from "react-native";
-import StoryList from "./storyList";
+import {View,TouchableOpacity,Text,Button} from "react-native";
+import {allStoryLoader} from "../../action/story";
+import {useDispatch, useSelector} from "react-redux";
 const StoryScreen = (props) => {
+
     const [changed, setChanged] = useState(false);
     const [storyType, setStoryType] = useState("hot");
-    const [onClickStory, setOnClickStory] = useState(false)
+    const AllStoryData = useSelector((state) => state.story.allStory.data)
+    const init = useRef(true);
+    const dispatch = useDispatch();
+
+    console.log(AllStoryData.length)
+    useEffect(() => {
+        dispatch(allStoryLoader())
+    }, [])
     return (
         <>
-
             <View>
-                <StoryNavScreen
-                    storyType={storyType}
-                    setStoryType={setStoryType}
-                    setChanged={setChanged}/>
-            </View>
-            <View>
-
-                <StoryList
-                    props={props}
-                    storyType={storyType}
-                    changed={changed}
-                    setOnClickStory={setOnClickStory}
-                    setChanged={setChanged}/>
+                <Button onPress={()=> props.navigation.navigate("Exam")} title="스토리 보러가기"/>
             </View>
         </>
     )

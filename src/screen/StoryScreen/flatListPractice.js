@@ -1,14 +1,24 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {useEffect, useRef, useState, useMemo} from "react"
 import {
     View,
+    Animated,
     Text,
-    TouchableOpacity,
-    FlatList
+    FlatList,
+    Dimensions, TouchableOpacity,
 } from 'react-native';
-import {ListItem} from 'native-base';
+import {_} from 'lodash';
+import {Card} from "react-native-paper";
+import {useDispatch, useSelector} from "react-redux";
+import {storyLoader} from "../../action/story";
+
+const {height} = Dimensions.get('window');
+const ITEM_HEIGHT = height * 0.5;
 
 const FlatListPractice = (props) => {
-    const [limit, setLimit] = useState(5);
+    const dispatch = useDispatch();
+    const DetailData = useSelector((state) => state.story.story.data)
+    const AllStoryData = useSelector((state) => state.story.allStory.data)
+    const [limit, setLimit] = useState(3);
     const [page, setPage] = useState(1);
     const [clientData, setClientData] = useState([]);
     const [serverData, serverDataLoaded] = useState([]);
@@ -16,47 +26,28 @@ const FlatListPractice = (props) => {
     const [loadmore, setLoadmore] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const flatListRef = useRef(null);
-    const itemList = [
-        {id:'0', name : 'set'},
-        {id: '1', name: 'Item!'},
-        {id: '2', name: 'Item@'},
-        {id: '3', name: 'Item#'},
-        {id: '4', name: 'Item$'},
-        {id: '5', name: 'Item%'},
-        {id: '6', name: 'Item^'},
-        {id: '7', name: 'Item&'},
-        {id: '8', name: 'Item*'},
-        {id: '9', name: 'Item('},
-        {id: '10', name: 'Item)'},
-        {id: '11', name: 'Item!!'},
-        {id: '12', name: 'Item@@'},
-        {id: '13', name: 'Item##'},
-        {id: '14', name: 'Item$$'},
-        {id: '15', name: 'Item%%'},
-        {id: '16', name: 'Item^^'},
-        {id: '17', name: 'Item&&'},
-        {id: '18', name: 'Item**'},
-        {id: '19', name: 'Item(('},
-        {id: '20', name: 'Item))'},
-    ]
-
+    const [fadingIndex, setFadingIndex] = useState(0);
+    const [scrollDirection, setScrollDirection] = useState(false);
+    const [offsetY, setOffsetY] = useState(0);
+    const [scrollY, setScrollY] = useState(new Animated.Value(0));
+    const [op, setOp] = useState(
+        scrollY.interpolate({
+            inputRange: [0, 50, 100, 150],
+            outputRange: [1, 0.5, 0.25, 0],
+        }),
+    );
     const ApiRequest = async thePage => {
         await setTimeout(() => {
         }, 1500);
-        return itemList.slice((thePage - 1) * limit, thePage * limit);
+        console.log(thePage)
+        return AllStoryData.slice((thePage - 1) * limit, thePage * limit);
     };
     const requestToServer = async thePage => {
         let data = await ApiRequest(thePage);
         console.log('data', data);
         serverDataLoaded(data);
     };
-
     useEffect(() => {
-        console.log('requestToServer');
-        requestToServer(page);
-    }, []);
-    useEffect(() => {
-        console.log('obtained serverData', serverData);
         if (serverData.length > 0) {
             setRefresh(false);
             setClientData([...clientData, ...serverData]);
@@ -80,22 +71,111 @@ const FlatListPractice = (props) => {
         }
     }
     const onRefresh = () => {
-        setClientData([]);
-        setPage(1);
-        setRefresh(true);
-        setPending_process(false);
+        if (page !== 1) {
+            setClientData([]);
+            setPage(1);
+            setRefresh(true);
+            setPending_process(false);
+        }
     };
-    const renderRow = ({item}) => {
+    const renderRow = ({item, index}) => {
         return (
-            <ListItem>
-                <Text style={{color: 'red'}}>{item.name}</Text>
-            </ListItem>
+            <>
+                <Animated.View
+                    style={
+                        index < fadingIndex && scrollDirection === "down" ? {opacity: op} : {}
+                    }>
+                    <View
+                        style={{
+                            height: ITEM_HEIGHT,
+                        }}>
+                        <Text>
+                            {item.story_title}
+                        </Text>
+                        <TouchableOpacity
+                            onPress={async () => {
+                                await dispatch(storyLoader(item.id))
+                                if (DetailData !== undefined) {
+                                    props.navigation.navigate("StoryDetail")
+                                }
+                            }}>
+
+                            <Card>
+                                <Card.Cover source={{
+                                    uri: item.Story_Files[0].file
+                                }}/>
+                            </Card>
+                        </TouchableOpacity>
+                        <Text>
+                            {item && item.Hashtags.map((comment, key) => {
+                                return (
+                                    <Text key={key}>
+                                        #{comment.hashtag}{'\u0020'}{'\u0020'}{'\u0020'}
+                                    </Text>
+                                )
+                            })}
+                        </Text>
+                    </View>
+                </Animated.View>
+            </>
+
         );
     };
-    return (
-        <View>
+    const handleScroll = (event) => {
+        let {contentOffset} = event.nativeEvent;
+        let h = ITEM_HEIGHT;
+        let reachingIndex = Math.ceil(contentOffset.y / h);
+        setOffsetY(contentOffset.y)
+        setScrollDirection(contentOffset.y > offsetY ? "down" : "up");
+
+        let in_range = [0, h / 3, (h / 3) * 2, h];
+        let out_range = [1, 0.5, 0.25, 0];
+        let out_range_new = [];
+        let in_range_new = [];
+        let d = h / 3;
+        for (let i = 0; i <= reachingIndex; i++) {
+            out_range_new = _.concat(out_range_new, out_range);
+            _.each(in_range, (val, index) => {
+                let n = in_range_new.length + 1;
+                let next_num = in_range[0] + (n - 1) * d;
+                in_range_new.push(next_num);
+            });
+        }
+        setOp(
+            scrollY.interpolate({
+                inputRange: in_range_new,
+                outputRange: out_range_new,
+            }),
+        );
+        setFadingIndex(reachingIndex);
+    };
+    const getItemLayout = (data, index) => ({
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index,
+    })
+    const keyExtractor = (item) => {
+        item.id;
+    }
+
+    return useMemo(() => {
+        return (
+
             <View>
-                <FlatList
+                <Animated.FlatList
+                    onScroll={Animated.event(
+                        [
+                            {
+                                nativeEvent: {contentOffset: {y: scrollY}}
+                            },
+                        ],
+                        {
+                            useNativeDriver: true,
+                            listener: handleScroll,
+                        },
+                    )}
+                    getItemLayout={getItemLayout}
+                    keyExtractor={keyExtractor}
                     ref={flatListRef}
                     refreshing={refresh}
                     data={clientData}
@@ -105,7 +185,7 @@ const FlatListPractice = (props) => {
                     onRefresh={() => onRefresh()}
                 />
             </View>
-        </View>
-    )
-}
+        );
+    }, [clientData, fadingIndex]);
+};
 export default FlatListPractice;

@@ -44,8 +44,11 @@ const [user,setUser] = useState({
     }
 
     return (
+
         <View style={styles.container}>
+
             <TouchableOpacity
+                onPress={props.navigation.navigate("FlatListPractice")}
                 style={styles.wrapButton}
             >
                 <Text>🏅 Something</Text>
@@ -56,6 +59,7 @@ const [user,setUser] = useState({
             >
                 <Text>🔓 Logout</Text>
             </TouchableOpacity>
+
         </View>
     );
 }
