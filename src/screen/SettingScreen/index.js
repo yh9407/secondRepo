@@ -7,36 +7,23 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from 'react-native';
-import {useSelector} from "react-redux";
-import {StackActions, NavigationActions} from 'react-navigation';
+import {useDispatch, useSelector} from "react-redux";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {signOutRequest} from "../../action/auth";
 
 const SettingScreen = (props) => {
-    const signInData = useSelector((state)=>state.auth.user)
-    const SignOutHandler = async ()=>{
-        if(signInData.isLoggedIn){
-            const result = await axios.post("http://http://192.168.0.59:3000/auth/signOut",{...user.email})
-            console.log(result)
-        }
-    }
-const [user,setUser] = useState({
-    email:signInData.email,
-    nickname:signInData.nickname,
-})
-    const logOut = () => {
-        const resetAction = StackActions.reset({
-            index: 0,
-            key: null,
-            actions: [NavigationActions.navigate({routeName: "SignIn"})]
-        })
-        props.navigation.dispatch(resetAction);
+    const dispatch = useDispatch();
+
+    const logOut = async () => {
+        await dispatch(signOutRequest())
+        props.navigation.navigate("Home")
     }
     const alertHandler = () =>{
         Alert.alert(
             "Alert",
             "Are you sure?",
             [
-                {text: 'ok', onPress: logOut},
+                {text: 'ok', onPress:(logOut)},
                 {text: 'cancel', onPress: ()=> null},
             ],
             {cancelable:false}
@@ -48,7 +35,6 @@ const [user,setUser] = useState({
         <View style={styles.container}>
 
             <TouchableOpacity
-                onPress={props.navigation.navigate("FlatListPractice")}
                 style={styles.wrapButton}
             >
                 <Text>🏅 Something</Text>

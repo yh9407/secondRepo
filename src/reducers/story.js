@@ -12,6 +12,10 @@ import
     STORY_VOTE,
     STORY_VOTE_SUCCESS,
     STORY_VOTE_FAILURE,
+    STORY_LIKE,
+    STORY_LIKE_SUCCESS,
+    STORY_LIKE_FAILURE,
+
 } from '../action/story'
 
 import update from "react-addons-update"
@@ -34,6 +38,11 @@ const initialState = {
         status: "INIT",
         voteNum: 0,
     },
+    like: {
+        user: false,
+        status: "INIT",
+        likeNum:0,
+    }
 }
 export default function story(state = initialState, action) {
     switch (action.type) {
@@ -114,6 +123,29 @@ export default function story(state = initialState, action) {
         case STORY_VOTE_FAILURE:
             return update(state, {
                 vote: {
+                    status: {$set: "FAILURE"}
+                }
+            });
+        case STORY_LIKE:
+            return update(state, {
+                like: {
+                    status: {$set: "WAITING"}
+                }
+            });
+        case STORY_LIKE_SUCCESS:
+            let num;
+            if (state.like.user) num = state.like.likeNum - 1;
+            else num = state.like.likeNum + 1;
+            return update(state, {
+                like: {
+                    status: {$set: "SUCCESS"},
+                    user: {$set: !state.like.user},
+                    likeNum: {$set: num},
+                }
+            });
+        case STORY_LIKE_FAILURE:
+            return update(state, {
+                like: {
                     status: {$set: "FAILURE"}
                 }
             });

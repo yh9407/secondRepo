@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import {Card, TextInput} from "react-native-paper";
-import {concat} from "react-native-reanimated";
 import {storyLoader} from "../../action/story";
 
 const {height} = Dimensions.get('window');
@@ -27,12 +26,12 @@ const Exam = (props) => {
     const AllStoryData = useSelector((state) => state.story.allStory.data)
     const [storyType, setStoryType] = useState("hot")
 
-    const visitHandler = async (story_id)=>{
-        await axios.put("http://192.168.0.59:3000/story/visit",{story_id:story_id})
+    const visitHandler = async (story_id) => {
+        await axios.put("http://121.144.131.216:3000/story/visit", {story_id: story_id})
     }
 
     const getData = async () => {
-        const url = "http://192.168.0.59:3000/story/list/" + page + "?type=" + storyType
+        const url = "http://121.144.131.216:3000/story/list/" + page + "?type=" + storyType
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -55,11 +54,12 @@ const Exam = (props) => {
                                       }
                                       await visitHandler(item.id)
                                   }}>
-                    <Card style={styles.itemImage}>
-                        <Card.Cover source={{
-                            uri: item.Story_Files[0].file
-                        }}/>
-                    </Card>
+                    {!item.Story_Files[0] ? null :
+                        <Card style={styles.itemImage}>
+                            <Card.Cover source={{
+                                uri: item.Story_Files[0].file
+                            }}/>
+                        </Card>}
                 </TouchableOpacity>
                 <Text>
                     해시태그 : {item && item.Hashtags.map((comment, key) => {
@@ -99,7 +99,7 @@ const Exam = (props) => {
         getData()
         setIsLoading(true)
 
-    }, [storyType,page])
+    }, [storyType, page])
 
     return (
         <>

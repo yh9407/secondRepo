@@ -44,7 +44,6 @@ const FlatListPractice = (props) => {
     };
     const requestToServer = async thePage => {
         let data = await ApiRequest(thePage);
-        console.log('data', data);
         serverDataLoaded(data);
     };
     useEffect(() => {
@@ -59,7 +58,6 @@ const FlatListPractice = (props) => {
     }, [serverData]);
 
     useEffect(() => {
-        console.log('load more with page', page);
         if (serverData.length === limit || page === 1) {
             setPending_process(true);
             requestToServer(page);

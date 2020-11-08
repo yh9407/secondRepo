@@ -1,22 +1,42 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux";
-import {storyLike} from "../../action/story";
+import {storyLike, storyLoader} from "../../action/story";
 
 import {
     View,
     Text,
+    Button,
     Image,
     TouchableOpacity,
 } from 'react-native';
-const StoryLike = (DetailData) => {
+const StoryLike = ({id,like}) => {
     const dispatch = useDispatch();
-
-const likeHandler = (status) => {
-        dispatch(storyLike(DetailData.id,status))
+const likeHandler = () => {
+        if(like.user) {
+            dispatch(storyLike(id,true));
+        }
+        else{
+            dispatch(storyLike(id,false));
+        }
 }
-const icon = require("../../../public/icons/hugus.png")
+    const LikeButton = () => {
+        if (like.user) {
+            return (
+                    <Button onPress={likeHandler} title="빈하트"/>
+            )
+        } else {
+            return (
+                <Button onPress={likeHandler} title="하트"/>
+            )
+        }
+    }
+    useEffect(() => {
+        dispatch(storyLoader(id))
+    }, [like.user])
     return (
-       <Image source={icon}/>
+       <View>
+          <LikeButton/>
+       </View>
     )
 }
 export default StoryLike;

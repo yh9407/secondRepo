@@ -19,6 +19,7 @@ const StoryDetail = () => {
     const CommentData = useSelector((state)=> state.story.comment.list);
     const CommentStatus = useSelector((state)=> state.comment.comment.status);
     const vote = useSelector((state) => state.story.vote)
+    const like = useSelector((state) => state.story.like)
 
 
 
@@ -63,7 +64,7 @@ const StoryDetail = () => {
                     스토리 목표 : {DetailData.story_goal}
                     스토리 투표수 : {DetailData.story_vote}
                 </Text>
-                <StoryLike DetailData={DetailData}/>
+                <StoryLike id={DetailData.id} like={like}/>
                 <StoryVote DetailData={DetailData} vote={vote}/>
                 <CommentInput story_id={DetailData.id}/>
                 <View>

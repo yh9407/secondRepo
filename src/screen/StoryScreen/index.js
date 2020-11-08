@@ -18,7 +18,13 @@ const StoryScreen = (props) => {
     return (
         <>
             <View>
-                <Button onPress={()=> props.navigation.navigate("Exam")} title="스토리 보러가기"/>
+                <Button onPress={()=> props.navigation.navigate("Exam")} title="Story 보러가기"/>
+            </View>
+            <View>
+                <Button onPress={()=> props.navigation.navigate("ActList")} title="Act 보러가기"/>
+            </View>
+            <View>
+                <Button onPress={()=> props.navigation.navigate("TalkList")} title="Talk 보러가기"/>
             </View>
         </>
     )

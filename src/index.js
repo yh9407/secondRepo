@@ -5,7 +5,7 @@ import StoryScreen from "./screen/StoryScreen";
 import MyPageScreen from "./screen/MyPageScreen";
 import SignIn from "./screen/SignUpScreen/signin";
 import {createStackNavigator} from "@react-navigation/stack";
-import {NavigationContainer } from "@react-navigation/native";
+import {NavigationContainer} from "@react-navigation/native";
 import FlatListPractice from "./screen/StoryScreen/flatListPractice"
 import {
     createDrawerNavigator,
@@ -19,6 +19,11 @@ import {Image} from "react-native-paper/src/components/Avatar/Avatar";
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import StoryDetail from "./screen/StoryScreen/StoryDetail";
 import Exam from "./screen/StoryScreen/Exam";
+import ActList from "./screen/ActScreen/ActList";
+import ActDetail from "./screen/ActScreen/ActDetail";
+import TalkList from "./screen/TalkScreen/TalkList";
+import TalkDetail from "./screen/TalkScreen/TalkDetail";
+import SignUp from "./screen/SignUpScreen/signup";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -29,15 +34,15 @@ function CustomDrawerContent(props) {
     const signInData = useSelector((state) => state.auth.user)
     return (
         <DrawerContentScrollView {...props}>
-
-            <View>
+            {signInData.isLoggedIn ? <View>
                 <Image source={{
                     uri: signInData.profile
                 }}/>
                 <Text> {signInData.nickname}</Text>
                 <Text> {signInData.email}</Text>
                 <Text> {signInData.phone_number}</Text>
-            </View>
+            </View> : null}
+
             <View>
 
             </View>
@@ -76,31 +81,32 @@ function BottomTabNav() {
             initialRouteName="Home"
             activeColor="#000000"
             inactiveColor="#e24656"
-            barStyle={{ backgroundColor: '#f7c231' }}
+            barStyle={{backgroundColor: '#f7c231'}}
         >
             <Tab.Screen name="Home" component={HomeScreen}
                         options={{
                             tabBarLabel: 'Home',
-                            tabBarIcon: ({ color }) => (
-                                <MaterialCommunityIcons name="home" color={color} size={26} />
+                            tabBarIcon: ({color}) => (
+                                <MaterialCommunityIcons name="home" color={color} size={26}/>
                             ),
                         }}/>
             <Tab.Screen name="Setting" component={SettingScreen}
                         options={{
-                            tabBarIcon: ({ color }) => (
-                                <MaterialCommunityIcons name="cog" color={color} size={26} />
+                            tabBarIcon: ({color}) => (
+                                <MaterialCommunityIcons name="cog" color={color} size={26}/>
                             ),
                         }}/>
             <Tab.Screen name="Story" component={StoryScreen} options={{
-                tabBarIcon: ({ color }) => (
-                    <MaterialCommunityIcons name="heart-multiple" color={color} size={26} />
+                tabBarIcon: ({color}) => (
+                    <MaterialCommunityIcons name="heart-multiple" color={color} size={26}/>
                 ),
-                tabBarBadge: 3}
+                tabBarBadge: 3
+            }
             }/>
             <Tab.Screen name="My" component={MyPageScreen}
                         options={{
-                            tabBarIcon: ({ color }) => (
-                                <MaterialCommunityIcons name="account" color={color} size={26} />
+                            tabBarIcon: ({color}) => (
+                                <MaterialCommunityIcons name="account" color={color} size={26}/>
                             ),
                         }}/>
         </Tab.Navigator>
@@ -117,10 +123,15 @@ function AppStack() {
                         : <Stack.Screen name="SignIn" component={SignIn}
                                         options={{title: "로그인화면"}}/>}
                     <Stack.Screen name="Home" component={BottomTabNav}/>
+                    <Stack.Screen name="SignUp" component={SignUp}/>
                     {/*<Stack.Screen name="Story" component={StoryScreen}/>*/}
                     <Stack.Screen name="StoryDetail" component={StoryDetail}/>
                     <Stack.Screen name="FlatListPractice" component={FlatListPractice}/>
                     <Stack.Screen name="Exam" component={Exam}/>
+                    <Stack.Screen name="ActList" component={ActList}/>
+                    <Stack.Screen name="ActDetail" component={ActDetail}/>
+                    <Stack.Screen name="TalkList" component={TalkList}/>
+                    <Stack.Screen name="TalkDetail" component={TalkDetail}/>
 
                 </Stack.Navigator>
             </NavigationContainer>

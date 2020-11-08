@@ -2,13 +2,19 @@ import
 {
     AUTH_SIGNIN,
     AUTH_SIGNIN_SUCCESS,
-    AUTH_SIGNIN_FAILURE
+    AUTH_SIGNIN_FAILURE,
+    AUTH_SIGNOUT,
+    AUTH_SIGNOUT_SUCCESS,
+    AUTH_SIGNOUT_FAILURE,
 } from '../action/auth'
 
 import update from "react-addons-update"
 
 const initialState = {
     signIn: {
+        status: "INIT"
+    },
+    signOut:{
         status: "INIT"
     },
     user: {
@@ -47,6 +53,35 @@ export default function auth(state = initialState, action) {
                 signIn: {
                     status: {$set: "FAILURE"}
                 },
+            })
+        case AUTH_SIGNOUT:
+            return update(state,{
+                signOut:{
+                    status:{$set:"WAITING"}
+                }
+            })
+        case AUTH_SIGNOUT_SUCCESS:
+            return update(state,{
+                signIn:{
+                    status:{$set:"INIT"}
+        },
+                user:{
+                    isLoggedIn: {$set: false},
+                    email: {$set: ""},
+                    nickname: {$set: ""},
+                    hash_email: {$set: ""},
+                    phone_number: {$set: ""},
+                    profile: {$set: ""},
+                },
+                signOut:{
+                    status:{$set:"SUCCESS"}
+                }
+            })
+        case AUTH_SIGNOUT_FAILURE:
+            return update(state,{
+                signOut:{
+                    status:{$set:"FAILURE"}
+                }
             })
         default:
             return state;

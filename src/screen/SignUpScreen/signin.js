@@ -70,7 +70,7 @@ const SignIn = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={()=>props.navigation.navigate("Home")}>
-                <Text>Home으로</Text>
+                <Text>Home 으로</Text>
             </TouchableOpacity>
         </View>
     )
