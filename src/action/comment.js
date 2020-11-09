@@ -18,7 +18,7 @@ export const commentAdd = (data) => async (dispatch) => {
     console.log(data)
     dispatch(commentAddStart());
     await axios
-        .post("http://121.144.131.216:3000/comment/add", {...data})
+        .post("http://192.168.0.59:3000/comment/add", {...data})
         .then((response) => {
             console.log(response)
             dispatch(commentAddSuccess());

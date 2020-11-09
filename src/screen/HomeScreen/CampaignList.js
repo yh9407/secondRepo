@@ -1,19 +1,25 @@
 import React, {useEffect, useState} from "react"
-import {View, ScrollView, Dimensions, Text, StyleSheet, Image} from "react-native"
+import {View, ScrollView, Dimensions, Text, StyleSheet, Image,TouchableOpacity} from "react-native"
+import {useDispatch} from "react-redux";
+import {campaignDetailLoader} from "../../action/campaign";
 
 
 const {width, height} = Dimensions.get('window')
 
-const CampaignList = () => {
+const CampaignList = ({props}) => {
     const [data, setData] = useState([])
+    const dispatch = useDispatch();
+
+
     const getData = () => {
-        const url = "http://121.144.131.216:3000/campaign/list/1"
+        const url = "http://192.168.0.59:3000/campaign/list/1"
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(responseJson.list)
             })
     }
+
 
     useEffect(() => {
         getData()
@@ -22,7 +28,14 @@ const CampaignList = () => {
     return (
         <>
             {data !== [] && data.map((campaign, index) => {
-                return <View key={index} style={styles.cardView}>
+                return <TouchableOpacity
+                    onPress={async ()=>{
+                        await dispatch(campaignDetailLoader(campaign.id))
+                        if(campaign.id){
+                            props.navigation.navigate("CampaignDetail")
+                        }
+                    }}
+                    key={index} style={styles.cardView}>
                     <Image style={styles.image}
                            source={{
                                uri: campaign.Campaign_Files[0].file
@@ -35,7 +48,7 @@ const CampaignList = () => {
                             {campaign.campaign_value} / {campaign.campaign_goal}
                         </Text>
                     </View>
-                </View>
+                </TouchableOpacity>
             })}
         </>
     )

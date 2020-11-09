@@ -24,6 +24,9 @@ import ActDetail from "./screen/ActScreen/ActDetail";
 import TalkList from "./screen/TalkScreen/TalkList";
 import TalkDetail from "./screen/TalkScreen/TalkDetail";
 import SignUp from "./screen/SignUpScreen/signup";
+import CampaignDetail from "./screen/HomeScreen/CampaignDetail";
+import CampaignList from "./screen/HomeScreen/CampaignList";
+import ListItem from "./screen/HomeScreen/ListItem";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -132,6 +135,9 @@ function AppStack() {
                     <Stack.Screen name="ActDetail" component={ActDetail}/>
                     <Stack.Screen name="TalkList" component={TalkList}/>
                     <Stack.Screen name="TalkDetail" component={TalkDetail}/>
+                    <Stack.Screen name="CampaignDetail" component={CampaignDetail}/>
+                    <Stack.Screen name="CampaignList" component={CampaignList}/>
+                    <Stack.Screen name="ListItem" component={ListItem}/>
 
                 </Stack.Navigator>
             </NavigationContainer>

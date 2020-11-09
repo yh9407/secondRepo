@@ -29,7 +29,7 @@ export const signOutFailure = () => {
 export const signInRequest = (user) => async (dispatch) => {
     dispatch(signInStart());
     await axios
-        .post("http://121.144.131.216:3000/auth/signIn", {...user})
+        .post("http://192.168.0.59:3000/auth/signIn", {...user})
         .then((response) => {
             if (response.data.success === 1) {
                 dispatch(signInSuccess(response.data));
@@ -42,7 +42,7 @@ export const signInRequest = (user) => async (dispatch) => {
 export const signOutRequest = () => async (dispatch) => {
     dispatch(signOutStart());
     await axios
-        .post("http://121.144.131.216:3000/auth/signOut")
+        .post("http://192.168.0.59:3000/auth/signOut")
         .then((response) => {
             dispatch(signOutSuccess())
         })

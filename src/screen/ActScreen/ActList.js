@@ -10,6 +10,7 @@ import {
 import {useDispatch} from "react-redux";
 import styled from 'styled-components';
 import axios from "axios"
+import {Card, TextInput} from "react-native-paper";
 import {actDetailLoader} from "../../action/act";
 
 
@@ -39,11 +40,11 @@ const ActList = (props) => {
     const [data, setData] = useState([])
 
     const visitHandler = async (act_id) => {
-        await axios.put("http://121.144.131.216:3000/act/visit", {act_id: act_id})
+        await axios.put("http://192.168.0.59:3000/act/visit", {act_id: act_id})
     }
 
     const getData = async () => {
-        const url = "http://121.144.131.216:3000/act/list/" + page
+        const url = "http://192.168.0.59:3000/act/list/" + page
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -60,6 +61,11 @@ const ActList = (props) => {
                     }
                     await visitHandler(item.id)
                 }}>
+                    {!item.Act_Files[0] ? null : <Card>
+                        <Card.Cover source={{
+                            uri: item.Act_Files[0].file
+                        }}/>
+                    </Card>}
                     <View>
                         <List>
                             Title: {item.act_title}

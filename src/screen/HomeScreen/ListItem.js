@@ -20,9 +20,9 @@ let numberOfData = 5
         if(mySlide.current){
             mySlide.current.scrollToOffset({animated:true,offset:scrollValue});
         }
-    },3000)
+    },10000)
 }
-const ListItem = ({data}) => {
+const ListItem = ({data,props}) => {
     const scrollX = new Animated.Value(0)
     let position = Animated.divide(scrollX, width)
     const [dataList, setDataList] =useState(data)
@@ -36,6 +36,7 @@ const ListItem = ({data}) => {
         return (
             <View>
                 <FlatList
+                    key={data.id}
                     ref={mySlide}
                     data={data}
                     keyExtractor={(item, index) => "key" + index}
@@ -44,10 +45,10 @@ const ListItem = ({data}) => {
                     scrollEnabled
                     snapToAlignment="center"
                     scrollEventThrottle={16}
-                    decelerationRate={"fast"}
+                    decelerationRate={"normal"}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({item}) => {
-                        return <CampaignList item={item}/>
+                        return <CampaignList props={props} item={item}/>
                     }}
                     onScroll={Animated.event(
                         [{nativeEvent:{contentOffset:{x:scrollX}}}],
@@ -55,13 +56,14 @@ const ListItem = ({data}) => {
                     )}
                 />
                 <View style={styles.dotView}>
-                    {data.map((_, i) => {
+                    {data.map((_,i) => {
                         let opacity = position.interpolate({
                             inputRange: [i - 1, i, i + 1],
                             outputRange: [0.3, 1, 0.3],
                             extrapolate: "clamp"
                         })
                         return (
+                            <>
                             <Animated.View
                                 key={i}
                                 style={{
@@ -72,11 +74,11 @@ const ListItem = ({data}) => {
                                     margin: 8,
                                     borderRadius: 5
                                 }}/>
+                            </>
                         )
+
                     })}
-
                 </View>
-
             </View>
         )
     }
@@ -84,8 +86,9 @@ const ListItem = ({data}) => {
 }
 const styles=StyleSheet.create({
     dotView:{
+        flex:1,
         flexDirection:"row",
         justifyContent:"center",
-    }
+    },
 })
 export default ListItem;

@@ -5,8 +5,63 @@ import {
     View,
     Text,
     Button,
+    TouchableOpacity,
 } from 'react-native';
 import {storyLoader} from "../../action/story";
+import styled from 'styled-components';
+
+const VoteSection= styled.View`
+width: 100%;
+display: flex;
+align-items: center;
+
+`
+const VoteBtn = styled.TouchableHighlight`
+width: 60%;
+height: 60px;
+margin-bottom: 30px;
+margin-top: 20px;
+justify-content: center;
+align-items: center;
+border-radius: 3px;
+background-color: transparent;
+border: solid 2.5px dodgerblue;
+`
+const UnVoteBtn=styled.TouchableHighlight`
+width: 60%;
+height: 60px;
+margin-top: 30px;
+margin-bottom: 30px;
+justify-content: center;
+align-items: center;
+border-radius: 3px;
+background-color: transparent;
+border: solid 2.5px #ff4949;
+`
+const VoteTextFont= styled.Text`
+font-size: 30px;
+color: dodgerblue;
+`
+const UnVoteTextFont=styled.Text`
+font-size: 30px;
+color: #ff4949;
+`
+const InfoBox = styled.View`
+display: flex;
+width: 100%;
+align-items: center;
+margin-bottom: 45px;
+
+`
+const TextInfo = styled.Text`
+
+font-size: 14px;
+color: gray;
+`
+const ImText = styled.Text`
+font-size: 18px;
+color: black;
+`
 
 const StoryVote = ({DetailData, vote}) => {
     const dispatch = useDispatch();
@@ -21,13 +76,27 @@ const StoryVote = ({DetailData, vote}) => {
     const VoteButton = () => {
         if (vote.user) {
             return (
-                <>
-                    <Button onPress={voteHandler} title="투표 취소하기"/>
-                </>
+                <VoteSection>
+                    <UnVoteBtn onPress={voteHandler}
+                             activeOpacity={0.6}
+                             underlayColor="#fc8d7e">
+                        <UnVoteTextFont>
+                            투표 취소하기
+                        </UnVoteTextFont>
+                    </UnVoteBtn>
+                </VoteSection>
             )
         } else {
             return (
-                <Button onPress={voteHandler} title="후원을 희망합니다"/>
+                <VoteSection>
+                    <VoteBtn onPress={voteHandler}
+                             activeOpacity={0.6}
+                             underlayColor="#86c6f0">
+                        <VoteTextFont>
+                            후원을 희망합니다
+                        </VoteTextFont>
+                    </VoteBtn>
+                </VoteSection>
             )
         }
     }
@@ -37,11 +106,13 @@ const StoryVote = ({DetailData, vote}) => {
     return (
         <View>
             <VoteButton/>
-            <Text>
-                <Text style={{fontWeight: "bold"}}>필요 득표수</Text>
-                를 충족할 시, 메인 캠페인으로 등록되며 {"\n"}
-                <Text style={{fontWeight: "bold"}}>실제 모금</Text>이 이루어집니다.
-            </Text>
+            <InfoBox>
+            <TextInfo>
+                <ImText>필요 득표수</ImText>
+                를 충족할 시, 메인 캠페인으로 등록되며 {"\n"} </TextInfo>
+                <TextInfo>   <ImText>실제 모금</ImText>이 이루어집니다.</TextInfo>
+
+            </InfoBox>
         </View>
     )
 }

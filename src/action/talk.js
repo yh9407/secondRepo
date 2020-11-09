@@ -16,7 +16,7 @@ export const talkDetailLoadFailure = () => {
 export const talkDetailLoader = (id) => async (dispatch) => {
     dispatch(talkDetailLoadStart());
     await axios
-        .get(`http://121.144.131.216:3000/talk/${id}`)
+        .get(`http://192.168.0.59:3000/talk/${id}`)
         .then((response) => {
             dispatch(talkDetailLoadSuccess(response.data.data));
         })

@@ -27,18 +27,18 @@ const Exam = (props) => {
     const [storyType, setStoryType] = useState("hot")
 
     const visitHandler = async (story_id) => {
-        await axios.put("http://121.144.131.216:3000/story/visit", {story_id: story_id})
+        await axios.put("http://192.168.0.59:3000/story/visit", {story_id: story_id})
     }
 
     const getData = async () => {
-        const url = "http://121.144.131.216:3000/story/list/" + page + "?type=" + storyType
+        const url = "http://192.168.0.59:3000/story/list/" + page + "?type=" + storyType
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(data.concat(responseJson.list))
             })
     }
-    const renderRow = ({item, key}) => {
+    const renderRow = ({item,key}) => {
         return (
             <View key={key}>
                 <View>
