@@ -3,7 +3,6 @@ import {View, ScrollView, Dimensions, Text, StyleSheet, Image,TouchableOpacity} 
 import {useDispatch} from "react-redux";
 import {campaignDetailLoader} from "../../action/campaign";
 
-
 const {width, height} = Dimensions.get('window')
 
 const CampaignList = ({props}) => {

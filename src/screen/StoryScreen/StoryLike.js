@@ -14,6 +14,10 @@ const Title= styled.View`
 margin-top: 100px;
 width: 80%;
 `
+const LoveImage=styled.Image`
+width: 30px;
+height: 30px;
+`
 
 const StoryLike = ({id, like}) => {
     const dispatch = useDispatch();
@@ -33,11 +37,11 @@ const StoryLike = ({id, like}) => {
         <View>
             {like.user ? (<View>
                 <TouchableOpacity onPress={likeHandler}>
-                    <Image source={Images.love.fullLove}/>
+                    <LoveImage source={Images.love.fullLove}/>
                 </TouchableOpacity>
             </View>) : (<View>
                 <TouchableOpacity onPress={likeHandler} >
-                    <Image source={Images.love.emptyLove}/>
+                    <LoveImage source={Images.love.emptyLove}/>
                 </TouchableOpacity>
             </View>)}
         </View>

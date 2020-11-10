@@ -1,22 +1,83 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios"
+import styled from 'styled-components';
 import {
     View,
-    Button,
+    Image,
     Text,
     StyleSheet,
+    Button,
     FlatList,
     TouchableOpacity,
     ActivityIndicator, Dimensions,
 } from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
-import {Card, TextInput} from "react-native-paper";
 import {storyLoader} from "../../action/story";
 
 const {height} = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.5;
 
+const StoryStyle = styled.View`
+display: flex;
+width: 100%;
+margin-top: 40px;
+`
+const StoryHeader = styled.View`
+display: flex;
+width: 100%;
+height: 40px;
+align-items: center;
+margin-top: 5px;
+`
+const HeaderText = styled.Text`
+font-weight: bold;
+color: orange;
+font-size: 25px;
+`
+const StoryImage = styled.Image`
+width: 100%;
+height: 280px;
+`
+const HashTag = styled.View`
+display: flex;
+flex-direction: row;
+padding: 3px;
+margin-left: 5px;
+width: 100%;
+justify-content: space-between;
+`
+const TagBox = styled.View`
+align-items: center;
+`
+const FontYellow = styled.Text`
+font-weight: bold;
+color: #ffa400;
+`
+const CommentStyle = styled.View`
+display: flex;
+width: 100%;
+padding: 20px 10px 10px 20px;
+`
+const CommentBox = styled.View`
+display: flex;
+width: 80%;
+height: 60px;
+margin-bottom: 10px;
+flex-direction: row;
 
+`
+const OrangeText = styled.Text`
+color: orange;
+font-size: 15px;
+font-weight: bold;
+
+`
+const CommentProfile = styled.Image`
+width: 40px;
+height: 40px;
+margin-right: 10px;
+border-radius: 100px;
+`
 const Exam = (props) => {
     const dispatch = useDispatch();
     const [data, setData] = useState([])
@@ -38,41 +99,44 @@ const Exam = (props) => {
                 setData(data.concat(responseJson.list))
             })
     }
-    const renderRow = ({item,key}) => {
+
+    const renderRow = ({item, key}) => {
         return (
-            <View key={key}>
+            <StoryStyle key={key}>
                 <View>
-                    <Text style={styles.itemText}>
-                        Title : {item.story_title}
+                    <Text>
+                        {item.user_email}
                     </Text>
                 </View>
-                <TouchableOpacity style={styles.item}
-                                  onPress={async () => {
-                                      await dispatch(storyLoader(item.id))
-                                      if (DetailData !== undefined) {
-                                          props.navigation.navigate("StoryDetail")
-                                      }
-                                      await visitHandler(item.id)
-                                  }}>
+                <TouchableOpacity
+                    onPress={async () => {
+                        await dispatch(storyLoader(item.id))
+                        if (DetailData !== undefined) {
+                            props.navigation.navigate("StoryDetail")
+                        }
+                        await visitHandler(item.id)
+                    }}>
                     {!item.Story_Files[0] ? null :
-                        <Card style={styles.itemImage}>
-                            <Card.Cover source={{
+                        <View>
+                            <StoryImage source={{
                                 uri: item.Story_Files[0].file
                             }}/>
-                        </Card>}
+                        </View>
+                    }
                 </TouchableOpacity>
-                <Text>
-                    해시태그 : {item && item.Hashtags.map((comment, key) => {
+                {item && item.Hashtags.map((comment, key) => {
                     return (
-                        <>
-                            <Text key={key}>
-                                #{comment.hashtag}{'\u0020'}{'\u0020'}{'\u0020'}
-                            </Text>
-                        </>
+                        <HashTag>
+                            <TagBox key={key}>
+                                <FontYellow>
+                                    #{comment.hashtag}
+                                </FontYellow>
+                            </TagBox>
+                        </HashTag>
                     )
                 })}
-                </Text>
-            </View>
+            </StoryStyle>
+
         )
     }
     const handleLoadMore = () => {
@@ -82,7 +146,7 @@ const Exam = (props) => {
     const renderFooter = () => {
         return (
             isLoading ?
-                <View style={styles.loader}>
+                <View>
                     <ActivityIndicator size="large"/>
                 </View> : null
         )
@@ -103,17 +167,13 @@ const Exam = (props) => {
 
     return (
         <>
-            <View>
-                <Button title="인기스토리" onPress={() => setStoryType("hot")
-                }/>
-                <Button title="최신스토리" onPress={() => setStoryType("new")
-                }/>
-                <Button title="지난스토리" onPress={() => setStoryType("past")
-                }/>
-            </View>
+            <StoryHeader>
+                <HeaderText>
+                    H U G U S S T O R Y
+                </HeaderText>
+            </StoryHeader>
             <FlatList
                 getItemLayout={getItemLayout}
-                style={styles.container}
                 data={data}
                 renderItem={renderRow}
                 keyExtractor={(item, index) => index.toString()}
@@ -124,32 +184,5 @@ const Exam = (props) => {
         </>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        marginTop: 20,
-        backgroundColor: "lightgray"
-    },
-    loader: {
-        marginTop: 10,
-        alignItems: "center"
-    },
-    item: {
-        borderBottomColor: "#ccc",
-        borderBottomWidth: 1,
-        marginBottom: 10,
-    },
-    line: {
-        borderBottomColor: "black",
-        borderBottomWidth: 10,
-    },
-    itemImage: {
-        width: "100%",
-        height: 200,
-        resizeMode: "cover"
-    },
-    itemText: {
-        fontSize: 16,
-        padding: 5
-    }
-})
+
 export default Exam;

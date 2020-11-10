@@ -5,9 +5,67 @@ import {
     Text,
     TouchableOpacity,
     TextInput,
+    ScrollView,
     StyleSheet, Button
 } from "react-native";
+import Images from "../../../public/pictures";
+import styled from 'styled-components';
 
+const SignUpStyle = styled.View`
+display: flex;
+width: 100%;
+align-items: center;
+`
+const BackgroundImg = styled.Image`
+width: 100%;
+height: 100%;
+`
+const ImageBox = styled.View`
+width: 100%;
+height: 300px;
+`
+const SignUpBox = styled.View`
+padding: 10px;
+margin-top: 20px;
+display: flex;
+width: 83%;
+
+`
+const EmailInput = styled.TextInput`
+display: flex;
+border-bottom-color: lightgray;
+border-bottom-width: 1.5px;
+font-size: 17px;
+`
+const PwdInput = styled.TextInput`
+display: flex;
+font-size: 17px;
+`
+const SignUpBtn = styled.TouchableOpacity`
+margin-top: 10px;
+width: 83%;
+height: 40px;
+justify-content: center;
+align-items: center;
+border-color: orange;
+border-width: 1px;
+display: flex;
+`
+const SignUpText = styled.Text`
+font-size: 20px;
+color: orange;
+`
+const SignInText = styled.Text`
+font-size: 19px;
+color: gray;
+`
+const SignInBtn = styled.TouchableOpacity`
+margin-top: 10px;
+height: 40px;
+flex-direction: column-reverse;
+justify-content: center;
+width: 160px;
+`
 const SignUp = (props) => {
 
     const [userInfo, setUserInfo] = useState({
@@ -35,68 +93,53 @@ const SignUp = (props) => {
     };
 
     const signUpHandler = async () => {
-        const result = await axios.post("http://192.168.0.59:3000/auth/signup",{...userInfo})
+        const result = await axios.post("http://192.168.0.59:3000/auth/signup", {...userInfo})
         props.navigation.navigate('SignIn')
     }
     return (
-        <View>
-            <TextInput
-                style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Email"
-                placeholderTextColor="#9a73ef"
-                autoCapitalize="none"
-                onChangeText={handleEmail}
-            />
-            <TextInput
-                style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Password"
-                placeholderTextColor="#9a73ef"
-                autoCapitalize="none"
-                secureTextEntry={true}
-                onChangeText={handlePassword}
-            />
-            <TextInput
-                style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Nickname"
-                placeholderTextColor="#9a73ef"
-                autoCapitalize="none"
-                onChangeText={handleNickname}
-            />
-            <TouchableOpacity
-                style={styles.submitButton}
-                onPress={() => signUpHandler(userInfo.email, userInfo.password, userInfo.nickname)}
-            >
-                <Text style={styles.submitButtonText}>Submit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            onPress={()=>props.navigation.navigate("SignIn")}>
-                <Text>이미 회원이신가요?</Text>
-            </TouchableOpacity>
-        </View>
+        <ScrollView>
+            <SignUpStyle>
+                <ImageBox>
+                    <BackgroundImg source={Images.signUp.hugImg}/>
+                </ImageBox>
+                <SignUpBox>
+                    <EmailInput
+                        underlineColorAndroid="transparent"
+                        placeholder="Email"
+                        placeholderTextColor="orange"
+                        autoCapitalize="none"
+                        onChangeText={handleEmail}
+                    />
+                    <EmailInput
+                        underlineColorAndroid="transparent"
+                        placeholder="Nickname"
+                        placeholderTextColor="orange"
+                        autoCapitalize="none"
+                        onChangeText={handleNickname}
+                    />
+                    <EmailInput
+                        underlineColorAndroid="transparent"
+                        placeholder="Password"
+                        placeholderTextColor="orange"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
+                        onChangeText={handlePassword}
+                    />
+
+                </SignUpBox>
+                <SignUpBtn
+                    onPress={() => signUpHandler(userInfo.email, userInfo.password, userInfo.nickname)}
+                >
+                    <SignUpText>회원가입 하기</SignUpText>
+                </SignUpBtn>
+                <SignInBtn
+                    onPress={() => props.navigation.navigate("SignIn")}>
+                    <SignInText>이미 회원이신가요?</SignInText>
+                </SignInBtn>
+            </SignUpStyle>
+        </ScrollView>
     )
 
 }
-const styles = StyleSheet.create({
-    container: {
-        paddingTop: 23
-    },
-    input: {
-        margin: 15,
-        height: 40,
-        borderColor: "#7a42f4",
-        borderWidth: 1
-    },
-    submitButton: {
-        backgroundColor: "#7a42f4",
-        padding: 10,
-        margin: 15,
-        height: 40
-    },
-    submitButtonText: {
-        color: "white"
-    }
-});
+
 export default SignUp;

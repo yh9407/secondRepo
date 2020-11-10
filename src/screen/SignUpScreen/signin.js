@@ -1,14 +1,68 @@
 import React, {useEffect, useState} from 'react'
 import {
-    View,
-    Text,
-    TouchableOpacity,
-    TextInput,
-    StyleSheet
+    ScrollView,
 } from "react-native";
 import {useDispatch} from "react-redux";
 import {signInRequest} from "../../action/auth";
 import {useSelector} from "react-redux";
+import styled from 'styled-components';
+import Images from "../../../public/pictures";
+
+const SignInStyle = styled.View`
+display: flex;
+width: 100%;
+align-items: center;
+`
+const BackgroundImg = styled.Image`
+width: 100%;
+height: 100%;
+`
+const ImageBox = styled.View`
+width: 100%;
+height: 320px;
+`
+const LoginBox = styled.View`
+padding: 10px;
+margin-top: 20px;
+display: flex;
+width: 83%;
+
+`
+const EmailInput = styled.TextInput`
+display: flex;
+border-bottom-color: lightgray;
+border-bottom-width: 1px;
+font-size: 17px;
+`
+const PwdInput = styled.TextInput`
+display: flex;
+font-size: 17px;
+`
+const LoginBtn = styled.TouchableOpacity`
+margin-top: 10px;
+width: 83%;
+height: 40px;
+justify-content: center;
+align-items: center;
+border-color: orange;
+border-width: 1px;
+display: flex;
+`
+const LoginText = styled.Text`
+font-size: 24px;
+color: orange;
+`
+const SignUpText = styled.Text`
+font-size: 18px;
+color: gray;
+`
+const SignUpBtn = styled.TouchableOpacity`
+margin-top: 10px;
+height: 40px;
+flex-direction: column-reverse;
+justify-content: center;
+width: 160px;
+`
 
 
 const SignIn = (props) => {
@@ -40,59 +94,42 @@ const SignIn = (props) => {
 
     },[signInData])
     return (
-        <View>
-            <TextInput
-                style={styles.input}
+        <ScrollView>
+        <SignInStyle>
+            <ImageBox>
+            <BackgroundImg source={Images.home.hugus}/>
+            </ImageBox>
+            <LoginBox>
+            <EmailInput
                 underlineColorAndroid="transparent"
                 placeholder="Email"
-                placeholderTextColor="#9a73ef"
+                placeholderTextColor="orange"
                 autoCapitalize="none"
                 onChangeText={handleEmail}
             />
-            <TextInput
-                style={styles.input}
+            <EmailInput
                 underlineColorAndroid="transparent"
                 placeholder="Password"
-                placeholderTextColor="#9a73ef"
+                placeholderTextColor="orange"
                 autoCapitalize="none"
                 secureTextEntry={true}
                 onChangeText={handlePassword}
             />
-            <TouchableOpacity
-                style={styles.submitButton}
+            </LoginBox>
+            <LoginBtn
                 onPress={() => signInHandler(userInfo.email, userInfo.password)}
             >
-                <Text style={styles.submitButtonText}>Submit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+                <LoginText>로그인</LoginText>
+
+            </LoginBtn>
+
+            <SignUpBtn
                 onPress={()=>props.navigation.navigate("SignUp")}>
-                <Text>회원가입하러가기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={()=>props.navigation.navigate("Home")}>
-                <Text>Home 으로</Text>
-            </TouchableOpacity>
-        </View>
+                <SignUpText>회원이 아니신가요 ? </SignUpText>
+            </SignUpBtn>
+        </SignInStyle>
+        </ScrollView>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        paddingTop: 23
-    },
-    input: {
-        margin: 15,
-        height: 40,
-        borderColor: "#7a42f4",
-        borderWidth: 1
-    },
-    submitButton: {
-        backgroundColor: "#7a42f4",
-        padding: 10,
-        margin: 15,
-        height: 40
-    },
-    submitButtonText: {
-        color: "white"
-    }
-});
+
 export default SignIn;

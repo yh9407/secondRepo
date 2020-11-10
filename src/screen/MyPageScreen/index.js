@@ -5,52 +5,98 @@ import {
     ScrollView,
     StyleSheet,
 } from 'react-native';
-import {widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import styled from 'styled-components';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useSelector} from "react-redux";
 import {Image} from "react-native-paper/src/components/Avatar/Avatar";
 
 
-const MyPageScreen =({navigation})=> {
-    const signInData = useSelector((state)=>state.auth.user)
+const ImageBox = styled.View`
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100%;
+`
+const MyPageImage = styled.Image`
+margin-top: 30px;
+width: 150px;
+height: 150px;
+border-radius: 100px;
+`
+const FontStyle = styled.Text`
+font-weight: bold;
+font-size: 30px;
+color: orange;
+`
+const TotalBox = styled.View`
+display: flex;
+width: 100%;
+align-items: center;
+`
+const BoxDesign = styled.View`
+display: flex;
+width: 80%;
+margin-top: 40px;
+height: 50px;
+flex-direction: row;
+justify-content: center;
+border-bottom-width: 1.5px;
+border-bottom-color: lightgray;
+`
+const BoxText = styled.Text`
+font-size: 23px;
+color: gray;
+`
+const DividedBox = styled.View`
+display: flex;
+width: 50%;
+justify-content: center;
+align-items: center;
+
+`
+
+
+
+const MyPageScreen = ({navigation}) => {
+    const signInData = useSelector((state) => state.auth.user)
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.wrapContent}>
-                <View>
-                <Image source={{
-                    uri:signInData.profile
-                }}/>
-            </View>
-                <Text>이메일 : {signInData.email}</Text>
-            </View>
+
+        <ScrollView>
             <View>
-                <Text>
-                    <Text>닉네임 : {signInData.nickname}</Text>
-                </Text>
+                <ImageBox>
+                    <MyPageImage source={{
+                        uri: signInData.profile
+                    }}/>
+                    <FontStyle>{signInData.nickname}</FontStyle>
+                </ImageBox>
             </View>
-            <View>
-                <Text>
-                    <Text>휴대전화 : {signInData.phone_number}</Text>
-                </Text>
-            </View>
+            <TotalBox>
+                <BoxDesign>
+                    <DividedBox>
+                        <BoxText>기부 건수</BoxText>
+                    </DividedBox>
+                    <DividedBox>
+                        <BoxText>3 건</BoxText>
+                    </DividedBox>
+                </BoxDesign>
+                <BoxDesign>
+                    <DividedBox>
+                        <BoxText>내가 쓴 글</BoxText>
+                    </DividedBox>
+                    <DividedBox>
+                        <BoxText>3 건</BoxText>
+                    </DividedBox>
+                </BoxDesign>
+                <BoxDesign>
+                    <DividedBox>
+                        <BoxText>총 후원 금액</BoxText>
+                    </DividedBox>
+                    <DividedBox>
+                        <BoxText>56,234,000 원</BoxText>
+                    </DividedBox>
+                </BoxDesign>
+            </TotalBox>
         </ScrollView>
     );
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: wp('5%'),
-        backgroundColor: 'white',
-    },
-    wrapContent: {
-        width: wp('90%'),
-        height: wp('90%'),
-        paddingBottom: wp('5%'),
-
-    },
-    content: {
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#46c3ad",
-    }
-})
 export default MyPageScreen;

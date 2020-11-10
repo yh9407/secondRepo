@@ -1,11 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {
     View,
+    Image,
 } from 'react-native';
 import {useSelector} from "react-redux";
 import CampaignList from "./CampaignList";
 import ListItem from "./ListItem";
+import styled from 'styled-components';
+import Images from "../../../public/pictures/"
 
+const HomeStyle=styled.ScrollView`
+`
+const HomeImage = styled.Image`
+width: 100%;
+height: 320px;
+`
+const ImageBox = styled.View`
+width: 100%;
+height: 320px;
+`
 
 const HomeScreen = (props) => {
     const [data, setData] = useState([])
@@ -24,9 +37,12 @@ const HomeScreen = (props) => {
         getData()
     }, [])
     return (
+        <HomeStyle>
+
         <View style={{height:"100%", width:"100%"}}>
             <ListItem data={data} props={props}/>
         </View>
+        </HomeStyle>
     );
 }
 

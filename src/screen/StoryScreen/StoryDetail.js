@@ -113,7 +113,31 @@ const LikeBtn = styled.View`
 display:flex;
 width: 78%;
 flex-direction: row-reverse;
+`
+const CommentStyle = styled.View`
+display: flex;
+width: 100%;
+padding: 20px 10px 10px 20px;
+`
+const CommentBox = styled.View`
+display: flex;
+width: 80%;
+height: 60px;
+margin-bottom: 10px;
+flex-direction: row;
 
+`
+const OrangeText = styled.Text`
+color: orange;
+font-size: 15px;
+font-weight: bold;
+
+`
+const CommentProfile = styled.Image`
+width: 40px;
+height: 40px;
+margin-right: 10px;
+border-radius: 100px;
 `
 
 
@@ -157,7 +181,6 @@ const StoryDetail = () => {
                         </Text>
                     </InfoBox>
                 </WriterInfo>
-
                 <Card>
                     <Card.Cover source={{
                         uri: DetailData.Story_Files[0].file
@@ -229,19 +252,21 @@ const StoryDetail = () => {
                     </MiddleFont>
                 </MarginBox>
                 <CommentInput story_id={DetailData.id}/>
-                <View>
+                <CommentStyle>
                     {CommentData !== [] && CommentData.map((comment, key) => {
                         return <View key={key}>
-                            <Text>{comment.User.nickname}</Text>
-                            <Image source={{
+                            <CommentBox>
+                            <CommentProfile source={{
                                 uri: comment.User.user_profile
                             }}/>
-                            <Text>
-                                댓글 내용 : {comment.comment}
-                            </Text>
+                            <OrangeText>{comment.User.nickname}</OrangeText>
+                                <Text>
+                                    {'\u0020'} {'\u0020'} {'\u0020'} {comment.comment}
+                                </Text>
+                            </CommentBox>
                         </View>
                     })}
-                </View>
+                </CommentStyle>
             </StoryContentStyle>
 
         </ScrollView>

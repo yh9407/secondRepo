@@ -15,7 +15,7 @@ import {useSelector} from "react-redux";
 const CommentStyle = styled.View`
 display: flex;
 width: 100%;
-margin-bottom: 30px;
+margin-bottom: 10px;
 flex-direction: column;
 align-items: center;
 `
@@ -33,6 +33,7 @@ const CommentBtn = styled.View`
 display: flex;
 flex-direction: row;
 justify-content: space-between;
+margin-right: 8px;
 width: 27%;
 `
 const CommentCancelBth = styled.TouchableOpacity`
