@@ -75,7 +75,7 @@ export const storyVoteFailure = () => {
 export const allStoryLoader = () => async (dispatch) => {
     dispatch(allStoryLoad());
     await axios
-        .get("http://192.168.0.59:3000/story/list/1?type=all")
+        .get("http://121.144.131.216:3000/story/list/1?type=all")
         .then((response) => {
             dispatch(allStoryLoadSuccess(response.data.list));
         })
@@ -88,7 +88,7 @@ export const allStoryLoader = () => async (dispatch) => {
 export const storyLoader = (id) => async (dispatch) => {
     dispatch(storyLoadStart());
     await axios
-        .get(`http://192.168.0.59:3000/story/${id}`)
+        .get(`http://121.144.131.216:3000/story/${id}`)
         .then((response) => {
             dispatch(storyLoadSuccess(response.data.data));
         })
@@ -100,7 +100,7 @@ export const storyLoader = (id) => async (dispatch) => {
 export const storyCommentLoader = (commentId) => async (dispatch) => {
     dispatch(storyCommentLoadStart());
     await axios
-        .get(`http://192.168.0.59:3000/comment/list/${commentId}/1`)
+        .get(`http://121.144.131.216:3000/comment/list/${commentId}/1`)
         .then((response) => {
             dispatch(storyCommentLoadSuccess(response.data.list))
         })
@@ -112,7 +112,7 @@ export const storyCommentLoader = (commentId) => async (dispatch) => {
 export const storyVote = (id, status) => async (dispatch) => {
     dispatch(storyVoteStart());
     await axios
-        .put("http://192.168.0.59:3000/story/vote", {story_id: id, status: status})
+        .put("http://121.144.131.216:3000/story/vote", {story_id: id, status: status})
         .then(() => {
             dispatch(storyVoteSuccess());
         })
@@ -124,7 +124,7 @@ export const storyVote = (id, status) => async (dispatch) => {
 export const storyLike = (id, status) => async (dispatch) => {
     dispatch(storyLikeStart());
     await axios
-        .put("http://192.168.0.59:3000/story/like", {story_id: id, status:status})
+        .put("http://121.144.131.216:3000/story/like", {story_id: id, status:status})
         .then(() => {
             dispatch(storyLikeSuccess());
         })

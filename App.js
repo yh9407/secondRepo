@@ -5,7 +5,6 @@ import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from "redux";
 import ReduxThunk from "redux-thunk"
 import {composeWithDevTools} from "redux-devtools-extension/index";
-import BottomTabNav from './src/bottomTabNav'
 const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(ReduxThunk))

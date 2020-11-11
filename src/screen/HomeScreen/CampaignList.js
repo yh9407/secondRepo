@@ -11,7 +11,7 @@ const CampaignList = ({props}) => {
 
 
     const getData = () => {
-        const url = "http://192.168.0.59:3000/campaign/list/1"
+        const url = "http://121.144.131.216:3000/campaign/list/1"
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

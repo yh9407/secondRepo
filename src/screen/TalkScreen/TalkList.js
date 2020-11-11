@@ -40,10 +40,10 @@ const TalkList = (props) => {
     const [data, setData] = useState([])
 
     const visitHandler = async (talk_id) => {
-        await axios.put("http://192.168.0.59:3000/talk/visit", {talk_id: talk_id})
+        await axios.put("http://121.144.131.216:3000/talk/visit", {talk_id: talk_id})
     }
     const getData = async () => {
-        const url = "http://192.168.0.59:3000/talk/list/" + page
+        const url = "http://121.144.131.216:3000/talk/list/" + page
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

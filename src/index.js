@@ -121,7 +121,8 @@ function AppStack() {
     return (
         <>
             <NavigationContainer>
-                <Stack.Navigator>
+                <Stack.Navigator
+                    screenOptions={{ headerStyle: { backgroundColor: 'orange' } }}>
                     {signInData.isLoggedIn ? <Stack.Screen name="HUG US" component={DrawerNav}/>
                         : <Stack.Screen name="SignIn" component={SignIn}
                                         options={{title: "로그인화면"}}/>}
@@ -130,7 +131,9 @@ function AppStack() {
                     {/*<Stack.Screen name="Story" component={StoryScreen}/>*/}
                     <Stack.Screen name="StoryDetail" component={StoryDetail}/>
                     <Stack.Screen name="FlatListPractice" component={FlatListPractice}/>
-                    <Stack.Screen name="Exam" component={Exam}/>
+                    <Stack.Screen name="Exam" component={Exam} options={{
+                        title:"STORY"
+                    }}/>
                     <Stack.Screen name="ActList" component={ActList}/>
                     <Stack.Screen name="ActDetail" component={ActDetail}/>
                     <Stack.Screen name="TalkList" component={TalkList}/>

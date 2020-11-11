@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import {storyLoader} from "../../action/story";
+import TimeSet from "./TimeSet";
 
 const {height} = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.5;
@@ -34,6 +35,7 @@ font-weight: bold;
 color: orange;
 font-size: 25px;
 `
+
 const StoryImage = styled.Image`
 width: 100%;
 height: 280px;
@@ -53,30 +55,25 @@ const FontYellow = styled.Text`
 font-weight: bold;
 color: #ffa400;
 `
-const CommentStyle = styled.View`
-display: flex;
-width: 100%;
-padding: 20px 10px 10px 20px;
-`
-const CommentBox = styled.View`
-display: flex;
-width: 80%;
-height: 60px;
-margin-bottom: 10px;
-flex-direction: row;
 
-`
-const OrangeText = styled.Text`
-color: orange;
-font-size: 15px;
-font-weight: bold;
-
-`
 const CommentProfile = styled.Image`
 width: 40px;
 height: 40px;
 margin-right: 10px;
 border-radius: 100px;
+`
+const WriterBox = styled.View`
+display: flex;
+width: 100%;
+margin-left: 10px;
+
+`
+const TimeBox = styled.View`
+display: flex;
+flex-direction: row-reverse;
+width: 95%;
+margin-left: 10px;
+margin-bottom: 5px;
 `
 const Exam = (props) => {
     const dispatch = useDispatch();
@@ -88,11 +85,11 @@ const Exam = (props) => {
     const [storyType, setStoryType] = useState("hot")
 
     const visitHandler = async (story_id) => {
-        await axios.put("http://192.168.0.59:3000/story/visit", {story_id: story_id})
+        await axios.put("http://121.144.131.216:3000/story/visit", {story_id: story_id})
     }
 
     const getData = async () => {
-        const url = "http://192.168.0.59:3000/story/list/" + page + "?type=" + storyType
+        const url = "http://121.144.131.216:3000/story/list/" + page + "?type=" + storyType
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -103,11 +100,16 @@ const Exam = (props) => {
     const renderRow = ({item, key}) => {
         return (
             <StoryStyle key={key}>
-                <View>
+                <WriterBox>
                     <Text>
                         {item.user_email}
                     </Text>
-                </View>
+                </WriterBox>
+                <TimeBox>
+                    <Text>
+                        <TimeSet At={item.createdAt}/>
+                    </Text>
+                </TimeBox>
                 <TouchableOpacity
                     onPress={async () => {
                         await dispatch(storyLoader(item.id))
@@ -167,11 +169,6 @@ const Exam = (props) => {
 
     return (
         <>
-            <StoryHeader>
-                <HeaderText>
-                    H U G U S S T O R Y
-                </HeaderText>
-            </StoryHeader>
             <FlatList
                 getItemLayout={getItemLayout}
                 data={data}

@@ -12,24 +12,59 @@ import styled from 'styled-components';
 import axios from "axios"
 import {Card, TextInput} from "react-native-paper";
 import {actDetailLoader} from "../../action/act";
+import Time from "./Time";
 
+const ActStyle = styled.View`
+display: flex;
+width: 100%;
+margin-top: 20px;
+`
+const ActHeader = styled.View`
+display: flex;
+width: 100%;
+height: 30px;
+align-items: center;
+margin-top: 12px;
+margin-bottom: 12px;
+`
+const HeaderText = styled.Text`
+font-weight: bold;
+color: orange;
+font-size: 25px;
+`
 
 const ListFrame = styled.FlatList`
 display: flex;
-padding: 15px 10px 15px 10px;
 `
 
-const List = styled.Text`
+const ListTitle = styled.Text`
 font-size: 20px;
+margin-left: 10px;
+`
+const ContentBox = styled.View`
+`
+const ListContent = styled.Text`
+font-size: 15px;
 `
 const ListSection = styled.TouchableOpacity`
 display: flex;
 padding: 15px 10px 15px 10px;
 border-style: solid;
+height: 280px;
 border-bottom-color: black;
 `
+const Line = styled.View`
+display: flex;
+width: 100%;
+border-bottom-color: orange;
+border-bottom-width: 1.5px;
+`
 
-
+const TimeBox = styled.View`
+display: flex;
+width: 100%;
+margin-left: 10px;
+`
 const {height} = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.5;
 
@@ -38,13 +73,12 @@ const ActList = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
-
     const visitHandler = async (act_id) => {
-        await axios.put("http://192.168.0.59:3000/act/visit", {act_id: act_id})
+        await axios.put("http://121.144.131.216:3000/act/visit", {act_id: act_id})
     }
 
     const getData = async () => {
-        const url = "http://192.168.0.59:3000/act/list/" + page
+        const url = "http://121.144.131.216:3000/act/list/" + page
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -53,7 +87,13 @@ const ActList = (props) => {
     }
     const renderRow = ({item, key}) => {
         return (
-            <View key={key}>
+            <ActStyle key={key}>
+                <TimeBox>
+                    <Time created={item.created_at}/>
+                </TimeBox>
+                <ListTitle>
+                      {item.act_title}
+                </ListTitle>
                 <ListSection onPress={async () => {
                     await dispatch(actDetailLoader(item.id))
                     if (item.id !== undefined) {
@@ -66,19 +106,14 @@ const ActList = (props) => {
                             uri: item.Act_Files[0].file
                         }}/>
                     </Card>}
-                    <View>
-                        <List>
-                            Title: {item.act_title}
-                        </List>
-                        <List>
-                            content : {item.act_content}
-                        </List>
-                        <List>
-                            작성자 : {item.user_email}
-                        </List>
-                    </View>
+                    <ContentBox>
+                        <ListContent>
+                            {item.act_content}
+                        </ListContent>
+                    </ContentBox>
                 </ListSection>
-            </View>
+                <Line/>
+            </ActStyle>
         )
     }
     const handleLoadMore = () => {
@@ -103,6 +138,7 @@ const ActList = (props) => {
     }, [page])
     return (
         <View>
+            <Line/>
             <ListFrame
                 getItemLayout={getItemLayout}
                 data={data}

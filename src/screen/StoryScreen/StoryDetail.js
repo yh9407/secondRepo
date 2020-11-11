@@ -6,14 +6,22 @@ import styled from 'styled-components';
 import {
     View,
     Text,
-    ScrollView,
+    ScrollView, Dimensions,
+    FlatList,
+    ActivityIndicator,
 } from 'react-native';
-import {Card, TextInput} from 'react-native-paper';
-import {Image} from "react-native-paper/src/components/Avatar/Avatar";
+
+
+import {Card} from 'react-native-paper';
 import CommentInput from "./CommentInput";
 import StoryVote from "./StoryVote";
 import StoryLike from "./StoryLike";
+import CommentLoader from "./CommentLoader";
 
+const ScrollBox = styled.ScrollView`
+width: 100%;
+height: 100%;
+`
 const StoryContentStyle = styled.View`
 margin-top: 30px;
 width: 100%;
@@ -26,8 +34,8 @@ width: 100%;
 margin-left: 50px;
 margin-bottom: 15px;
 flex-direction: column;
-
 `
+
 const Line = styled.View`
 display: flex;
 width: 100%;
@@ -97,7 +105,7 @@ margin-bottom: 20px;
 align-items: center;
 justify-content: center;
 height: 30px;
-width: 20%;
+width: 30%;
 background-color: antiquewhite;
 `
 const FontYellow = styled.Text`
@@ -114,162 +122,121 @@ display:flex;
 width: 78%;
 flex-direction: row-reverse;
 `
-const CommentStyle = styled.View`
-display: flex;
-width: 100%;
-padding: 20px 10px 10px 20px;
-`
-const CommentBox = styled.View`
-display: flex;
-width: 80%;
-height: 60px;
-margin-bottom: 10px;
-flex-direction: row;
-
-`
-const OrangeText = styled.Text`
-color: orange;
-font-size: 15px;
-font-weight: bold;
-
-`
-const CommentProfile = styled.Image`
-width: 40px;
-height: 40px;
-margin-right: 10px;
-border-radius: 100px;
-`
-
 
 
 const StoryDetail = () => {
     const dispatch = useDispatch();
     const DetailData = useSelector((state) => state.story.story.data)
-    const CommentData = useSelector((state) => state.story.comment.list);
-    const CommentStatus = useSelector((state) => state.comment.comment.status);
     const vote = useSelector((state) => state.story.vote)
     const like = useSelector((state) => state.story.like)
+    const [enableScrollViewScroll,setEnableScrollViewScroll] =useState(true)
 
-
-    useEffect(() => {
-        dispatch(storyCommentLoader(DetailData.id))
-
-    }, [DetailData.id, CommentStatus, vote.user])
     return (
-        <ScrollView>
-            <StoryContentStyle>
-                <StoryTitle>
-                    <TextTitle>
-                        {DetailData.Story_Items[0].item_name}{'\u0020'}{'\u0020'}{'\u0020'}
-                    </TextTitle>
-                </StoryTitle>
-                <Line/>
-                <StoryWriter>
-                    <SmallFont>
-                        {DetailData.User.nickname} 님
-                    </SmallFont>
-                </StoryWriter>
-                <MarginBox>
-                    <MiddleFont>
-                        작성자 소개
-                    </MiddleFont>
-                </MarginBox>
-                <WriterInfo>
-                    <InfoBox>
-                        <Text>
-                            {'\u0020'} {'\u0020'}{'\u0020'} {DetailData.user_info}
-                        </Text>
-                    </InfoBox>
-                </WriterInfo>
-                <Card>
-                    <Card.Cover source={{
-                        uri: DetailData.Story_Files[0].file
-                    }}/>
-                </Card>
-                <MarginBox>
-                    <MiddleFont>
-                        내용
-                    </MiddleFont>
-                </MarginBox>
-                <WriterInfo>
-                    <InfoBox>
-                        <Text>
-                            {'\u0020'} {'\u0020'}{'\u0020'} {DetailData.story_content}
-                        </Text>
-                    </InfoBox>
-                </WriterInfo>
-                <MarginBox>
-                    <MiddleFont>
-                        저는 이런것들이 필요합니다
-                    </MiddleFont>
-                </MarginBox>
-                <GoodsBoxBox>
-                    <GoodsBox>
-                        <Text>
-                            {DetailData.Story_Items[0].item_name}(
-                            물품가격 : {DetailData.Story_Items[0].item_price}원 X
-                            물품갯수 : {DetailData.Story_Items[0].item_quantity}개 )
-                        </Text>
-                        <Text>
-                            {'\n'}{'\n'}
-                            합계 {DetailData.Story_Items[0].item_price * DetailData.Story_Items[0].item_quantity}원
-                        </Text>
+        <>
 
-                    </GoodsBox>
-                </GoodsBoxBox>
-                <MarginBox>
-                    <MiddleFont>
-                        태그
-                    </MiddleFont>
-                </MarginBox>
-                <TagBox>
+            <ScrollBox>
+                <StoryContentStyle>
+                    <StoryTitle>
+                        <TextTitle>
+                            {DetailData.Story_Items[0].item_name}{'\u0020'}{'\u0020'}{'\u0020'}
+                        </TextTitle>
+                    </StoryTitle>
+                    <Line/>
+                    <StoryWriter>
+                        <SmallFont>
+                            {DetailData.User.nickname} 님
+                        </SmallFont>
+                    </StoryWriter>
+                    <MarginBox>
+                        <MiddleFont>
+                            작성자 소개
+                        </MiddleFont>
+                    </MarginBox>
+                    <WriterInfo>
+                        <InfoBox>
+                            <Text>
+                                {'\u0020'} {'\u0020'}{'\u0020'} {DetailData.user_info}
+                            </Text>
+                        </InfoBox>
+                    </WriterInfo>
+                    <Card>
+                        <Card.Cover source={{
+                            uri: DetailData.Story_Files[0].file
+                        }}/>
+                    </Card>
+                    <MarginBox>
+                        <MiddleFont>
+                            내용
+                        </MiddleFont>
+                    </MarginBox>
+                    <WriterInfo>
+                        <InfoBox>
+                            <Text>
+                                {'\u0020'} {'\u0020'}{'\u0020'} {DetailData.story_content}
+                            </Text>
+                        </InfoBox>
+                    </WriterInfo>
+                    <MarginBox>
+                        <MiddleFont>
+                            저는 이런것들이 필요합니다
+                        </MiddleFont>
+                    </MarginBox>
+                    <GoodsBoxBox>
+                        <GoodsBox>
+                            <Text>
+                                {DetailData.Story_Items[0].item_name}(
+                                물품가격 : {DetailData.Story_Items[0].item_price}원 X
+                                물품갯수 : {DetailData.Story_Items[0].item_quantity}개 )
+                            </Text>
+                            <Text>
+                                {'\n'}{'\n'}
+                                합계 {DetailData.Story_Items[0].item_price * DetailData.Story_Items[0].item_quantity}원
+                            </Text>
+
+                        </GoodsBox>
+                    </GoodsBoxBox>
+                    <MarginBox>
+                        <MiddleFont>
+                            태그
+                        </MiddleFont>
+                    </MarginBox>
+
                     {DetailData.Hashtags.map((hashTag, key) => {
                         return (
-                            <FontYellow key={key}>
-                                # {hashTag.hashtag}
-                            </FontYellow>)
+                            <TagBox>
+                                <FontYellow key={key}>
+                                    # {hashTag.hashtag}
+                                </FontYellow>
+                            </TagBox>)
                     })}
-                </TagBox>
 
-                <StoryVote DetailData={DetailData} vote={vote}/>
-                <LikeBox>
+
+                    <StoryVote DetailData={DetailData} vote={vote}/>
+                    <LikeBox>
+                        <Text>
+                            좋아요 {DetailData.story_like}
+                            {'\u0020'}{'\u0020'}{'\u0020'}
+                            조회수 {DetailData.visited}{'\u0020'}{'\u0020'}{'\u0020'}
+                        </Text>
+                    </LikeBox>
+                    <LikeBtn>
+                        <StoryLike id={DetailData.id} like={like}/>
+                    </LikeBtn>
                     <Text>
-                        좋아요  {DetailData.story_like}
-                    {'\u0020'}{'\u0020'}{'\u0020'}
-                    조회수  {DetailData.visited}{'\u0020'}{'\u0020'}{'\u0020'}
+                        스토리 목표 : {DetailData.story_goal}
+                        스토리 투표수 : {DetailData.story_vote}
                     </Text>
-                </LikeBox>
-                <LikeBtn>
-                    <StoryLike id={DetailData.id} like={like}/>
-                </LikeBtn>
-                <Text>
-                    스토리 목표 : {DetailData.story_goal}
-                    스토리 투표수 : {DetailData.story_vote}
-                </Text>
-                <MarginBox>
-                    <MiddleFont>
-                        댓글
-                    </MiddleFont>
-                </MarginBox>
-                <CommentInput story_id={DetailData.id}/>
-                <CommentStyle>
-                    {CommentData !== [] && CommentData.map((comment, key) => {
-                        return <View key={key}>
-                            <CommentBox>
-                            <CommentProfile source={{
-                                uri: comment.User.user_profile
-                            }}/>
-                            <OrangeText>{comment.User.nickname}</OrangeText>
-                                <Text>
-                                    {'\u0020'} {'\u0020'} {'\u0020'} {comment.comment}
-                                </Text>
-                            </CommentBox>
-                        </View>
-                    })}
-                </CommentStyle>
-            </StoryContentStyle>
 
-        </ScrollView>
+                </StoryContentStyle>
+            </ScrollBox>
+            <MarginBox>
+                <MiddleFont>
+                    댓글
+                </MiddleFont>
+            </MarginBox>
+            <CommentInput story_id={DetailData.id}/>
+            <CommentLoader id={DetailData.id}/>
+        </>
     )
 }
 export default StoryDetail;

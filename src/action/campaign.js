@@ -23,7 +23,7 @@ export const campaignDetailLoadFailure = () => {
 export const campaignDetailLoader = (id) => async (dispatch) => {
     dispatch(campaignDetailLoadStart());
     await axios
-        .get(`http://192.168.0.59:3000/campaign/${id}`)
+        .get(`http://121.144.131.216:3000/campaign/${id}`)
         .then((response) => {
             dispatch(campaignDetailLoadSuccess(response.data.data));
         })

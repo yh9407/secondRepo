@@ -16,7 +16,7 @@ export const actDetailLoadFailure = () => {
 export const actDetailLoader = (id) => async (dispatch) => {
     dispatch(actDetailLoadStart());
     await axios
-        .get(`http://192.168.0.59:3000/act/${id}`)
+        .get(`http://121.144.131.216:3000/act/${id}`)
         .then((response) => {
             dispatch(actDetailLoadSuccess(response.data.data));
         })
