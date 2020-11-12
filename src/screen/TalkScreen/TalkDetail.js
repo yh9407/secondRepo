@@ -8,6 +8,7 @@ import {
 import {useSelector} from "react-redux";
 import styled from 'styled-components';
 import IP from "../../../Ip";
+import {SliderBox} from "react-native-image-slider-box"
 
 const TalkContentStyle = styled.View`
 margin-top: 30px;
@@ -49,8 +50,9 @@ margin-bottom: 10px;
 `
 const ImageBox = styled.View`
 display: flex;
+margin-top: 20px;
 width: 100%;
-height: 300px;
+height: 200px;
 `
 const InfoBox = styled.View`
 display: flex;
@@ -66,24 +68,33 @@ margin-bottom: 30px;
 `
 const TalkDetail = () => {
     const DetailData = useSelector((state) => state.talk.talk.data)
+    const status = useSelector((state) => state.talk.talk.status)
     const [list, setList] = useState([])
-    // console.log(list)
     const getData = async () => {
         const url = `${IP}/talk/${DetailData.id}`
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                for (let i = 0; i < responseJson.data.Talk_Files.length; i++) {
-                    setList(list.concat(responseJson.data.Talk_Files[i].file))
+                let newList = [];
+                for (const file of responseJson.data.Talk_Files) {
+                    newList.push(file.file)
                 }
-                console.log(list)
+                setList(newList)
             })
     }
+console.log(list)
     useEffect(() => {
         getData()
-    }, [])
+    }, [status])
     return (
         <ScrollView>
+            <ImageBox>
+                <SliderBox
+                    autoplay={true}
+                    circleLoop={true}
+                    images={list}
+                />
+            </ImageBox>
             <TalkContentStyle>
                 <TalkTitle>
                     <TextTitle>
@@ -101,6 +112,7 @@ const TalkDetail = () => {
                         {DetailData.talk_content}
                     </Text>
                 </InfoBox>
+
                 <Text>
                     조회수 : {DetailData.visited}
                 </Text>
