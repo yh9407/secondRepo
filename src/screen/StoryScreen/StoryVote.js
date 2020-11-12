@@ -17,10 +17,9 @@ align-items: center;
 
 `
 const VoteBtn = styled.TouchableHighlight`
-width: 60%;
-height: 60px;
+width: 45%;
+height: 45px;
 margin-bottom: 30px;
-margin-top: 20px;
 justify-content: center;
 align-items: center;
 border-radius: 3px;
@@ -28,9 +27,8 @@ background-color: transparent;
 border: solid 2.5px dodgerblue;
 `
 const UnVoteBtn=styled.TouchableHighlight`
-width: 60%;
-height: 60px;
-margin-top: 30px;
+width: 45%;
+height: 45px;
 margin-bottom: 30px;
 justify-content: center;
 align-items: center;
@@ -39,11 +37,11 @@ background-color: transparent;
 border: solid 2.5px #ff4949;
 `
 const VoteTextFont= styled.Text`
-font-size: 30px;
+font-size: 20px;
 color: dodgerblue;
 `
 const UnVoteTextFont=styled.Text`
-font-size: 30px;
+font-size: 20px;
 color: #ff4949;
 `
 const InfoBox = styled.View`
@@ -54,7 +52,6 @@ margin-bottom: 45px;
 
 `
 const TextInfo = styled.Text`
-
 font-size: 14px;
 color: gray;
 `

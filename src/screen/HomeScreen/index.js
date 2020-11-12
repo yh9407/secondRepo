@@ -4,10 +4,9 @@ import {
     Image,
 } from 'react-native';
 import {useSelector} from "react-redux";
-import CampaignList from "./CampaignList";
 import ListItem from "./ListItem";
 import styled from 'styled-components';
-import Images from "../../../public/pictures/"
+import IP from "../../../Ip";
 
 const HomeStyle=styled.ScrollView`
 `
@@ -25,7 +24,7 @@ const HomeScreen = (props) => {
     const signInData = useSelector((state) => state.auth.user)
 
     const getData = () => {
-        const url = "http://121.144.131.216:3000/campaign/list/1"
+        const url = `${IP}/campaign/list/1`
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

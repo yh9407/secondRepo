@@ -1,4 +1,5 @@
 import axios from 'axios'
+import IP from "../../Ip"
 
 export const ACT_DETAIL_LOAD = "ACT_DETAIL_LOAD";
 export const ACT_DETAIL_SUCCESS = "ACT_DETAIL_SUCCESS";
@@ -16,7 +17,7 @@ export const actDetailLoadFailure = () => {
 export const actDetailLoader = (id) => async (dispatch) => {
     dispatch(actDetailLoadStart());
     await axios
-        .get(`http://121.144.131.216:3000/act/${id}`)
+        .get(`${IP}/act/${id}`)
         .then((response) => {
             dispatch(actDetailLoadSuccess(response.data.data));
         })

@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     ActivityIndicator, Dimensions,
 } from 'react-native';
+import IP from "../../../Ip";
 import {Card, TextInput} from "react-native-paper";
 
 import {useDispatch} from "react-redux";
@@ -15,19 +16,46 @@ import axios from "axios";
 import styled from 'styled-components';
 import {talkDetailLoader} from "../../action/talk";
 
+const TalkStyle = styled.View`
+display: flex;
+width: 100%;
+margin-top: 40px;
+`
 const ListFrame = styled.FlatList`
 display: flex;
-padding: 15px 10px 15px 10px;
 `
-
 const List = styled.Text`
-font-size: 20px;
+font-size: 18px;
 `
 const ListSection = styled.TouchableOpacity`
 display: flex;
-padding: 15px 10px 15px 10px;
-border-style: solid;
-border-bottom-color: black;
+height: 250px;
+`
+const WriterBox = styled.View`
+display: flex;
+width: 100%;
+flex-direction: row;
+align-items: center;
+margin-left: 10px;
+margin-bottom: 15px;
+
+`
+const WriterImage = styled.Image`
+width: 40px;
+height: 40px;
+border-radius: 50px;
+`
+const WriterText = styled.Text`
+margin-left: 10px;
+font-size: 17px;
+color: black;
+`
+const ListContentBox = styled.View`
+display: flex;
+width: 300px;
+margin-left: 20px;
+margin-top: 10px;
+justify-content: center;
 `
 
 const {height} = Dimensions.get('window');
@@ -38,12 +66,11 @@ const TalkList = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
-
     const visitHandler = async (talk_id) => {
-        await axios.put("http://121.144.131.216:3000/talk/visit", {talk_id: talk_id})
+        await axios.put(`${IP}/talk/visit`, {talk_id: talk_id})
     }
     const getData = async () => {
-        const url = "http://121.144.131.216:3000/talk/list/" + page
+        const url = `${IP}/talk/list/` + page
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -52,7 +79,17 @@ const TalkList = (props) => {
     }
     const renderRow = ({item, key}) => {
         return (
-            <View key={key}>
+            <TalkStyle key={key}>
+                <WriterBox>
+                    {!item.User.user_profile ? null :
+                        <WriterImage source={{
+                            uri: item.User.user_profile
+                        }}/>
+                    }
+                    <WriterText>
+                        {item.User.nickname}
+                    </WriterText>
+                </WriterBox>
                 <ListSection onPress={async () => {
                     await dispatch(talkDetailLoader(item.id))
                     if (item.id !== undefined) {
@@ -66,19 +103,14 @@ const TalkList = (props) => {
                         }}/>
 
                     </Card>}
-                    <View>
+
+                    <ListContentBox>
                         <List>
-                            Title: {item.talk_title}
+                            {item.talk_title}
                         </List>
-                        <List>
-                            content : {item.talk_content}
-                        </List>
-                        <List>
-                            작성자 : {item.user_email}
-                        </List>
-                    </View>
+                    </ListContentBox>
                 </ListSection>
-            </View>
+            </TalkStyle>
         )
     }
 

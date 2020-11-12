@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import {View, ScrollView, Dimensions, Text, StyleSheet, Image,TouchableOpacity} from "react-native"
 import {useDispatch} from "react-redux";
 import {campaignDetailLoader} from "../../action/campaign";
+import IP from "../../../Ip"
 
 const {width, height} = Dimensions.get('window')
 
@@ -11,7 +12,7 @@ const CampaignList = ({props}) => {
 
 
     const getData = () => {
-        const url = "http://121.144.131.216:3000/campaign/list/1"
+        const url = `${IP}/campaign/list/1`
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

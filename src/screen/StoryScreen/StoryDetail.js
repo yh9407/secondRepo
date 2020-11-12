@@ -6,9 +6,11 @@ import styled from 'styled-components';
 import {
     View,
     Text,
-    ScrollView, Dimensions,
+    ScrollView,
+    Dimensions,
     FlatList,
-    ActivityIndicator,
+    TouchableOpacity,
+    Animated,
 } from 'react-native';
 
 
@@ -51,7 +53,6 @@ width: 90%;
 margin-top: 10px;
 margin-bottom: 15px;
 flex-direction: row-reverse;
-
 `
 const SmallFont = styled.Text`
 font-size: 15px;
@@ -97,18 +98,9 @@ flex-direction: row;
 padding: 10px;
 background-color: antiquewhite;
 `
-const TagBox = styled.View`
-display: flex;
-margin-left: 30px;
-padding: 10px;
-margin-bottom: 20px;
-align-items: center;
-justify-content: center;
-height: 30px;
-width: 30%;
-background-color: antiquewhite;
-`
+
 const FontYellow = styled.Text`
+font-size: 21px;
 color: #ffa400;
 `
 const LikeBox = styled.View`
@@ -122,18 +114,138 @@ display:flex;
 width: 78%;
 flex-direction: row-reverse;
 `
+const CommentStyle = styled.View`
+display: flex;
+width: 100%;
+padding: 20px 10px 10px 20px;
+`
+const CommentBox = styled.View`
+display: flex;
+width: 80%;
+height: 60px;
+margin-bottom: 10px;
+flex-direction: row;
 
+`
+const OrangeText = styled.Text`
+color: orange;
+font-size: 15px;
+font-weight: bold;
 
-const StoryDetail = () => {
+`
+const CommentProfile = styled.Image`
+width: 40px;
+height: 40px;
+margin-right: 10px;
+border-radius: 100px;
+`
+const CommentPlusBox = styled.View`
+display: flex;
+flex-direction: row-reverse;
+width: 95%;
+margin-bottom: 50px;
+`
+const HashTag = styled.View`
+display: flex;
+margin-top: 10px;
+margin-left: 30px;
+flex-direction: row;
+width: 29%;
+justify-content: space-between;
+
+`
+const TagBox = styled.View`
+display: flex;
+margin-bottom: 20px;
+align-items: center;
+justify-content: center;
+height: 30px;
+`
+const BarStyle = styled.View`
+width: 100%;
+height: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: row;
+`
+const Bar = styled.View`
+display: flex;
+background-color: #e7e7e7;
+border-radius: 10px;
+width: 80%;
+height: 40px;
+margin-bottom: 10px;
+`
+const BarIn = styled.View`
+align-items: center;
+justify-content: center;
+background-color: orange;
+border-radius: 10px;
+height: 40px;
+${(props) => (props.ratio == 0 ? "width:0px" : `width:${props.ratio}%`)};
+`
+const BarTextBox = styled.View`
+display: flex;
+flex-direction: row-reverse;
+width: 90%;
+margin-top: 10px;
+`
+const BarText = styled.Text`
+font-size: 15px;
+color: gray;
+`
+const StoryDetail = (props) => {
     const dispatch = useDispatch();
     const DetailData = useSelector((state) => state.story.story.data)
     const vote = useSelector((state) => state.story.vote)
     const like = useSelector((state) => state.story.like)
-    const [enableScrollViewScroll,setEnableScrollViewScroll] =useState(true)
+    const [enableScrollViewScroll, setEnableScrollViewScroll] = useState(true)
+    const CommentData = useSelector((state) => state.story.comment.list);
+    const CommentStatus = useSelector((state) => state.comment.comment.status);
+
+    const fadeAnim = useRef(new Animated.Value(0)).current
+
+    const ProgressBar = () => {
+        let ratio = (DetailData.story_vote / DetailData.story_goal) * 100;
+        if (ratio > 100) ratio = 100;
+        return (
+            <>
+                <BarStyle>
+                    <Bar>
+                        <BarIn ratio={ratio}>
+                            <Animated.Text
+                                style={{
+                                    opacity: fadeAnim,
+                                }}>
+                                {ratio}%
+                            </Animated.Text>
+                        </BarIn>
+                    </Bar>
+                </BarStyle>
+                <BarTextBox>
+                    <BarText>
+                        {DetailData.story_vote}/{DetailData.story_goal}
+                    </BarText>
+                </BarTextBox>
+            </>
+        )
+    }
+
+    useEffect(() => {
+        dispatch(storyCommentLoader(DetailData.id))
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: 1,
+                duration: 5000,
+                useNativeDriver: true
+            }
+        ).start();
+    }, [fadeAnim, DetailData.id, vote.user, CommentStatus])
 
     return (
         <>
-
             <ScrollBox>
                 <StoryContentStyle>
                     <StoryTitle>
@@ -197,19 +309,21 @@ const StoryDetail = () => {
                     </GoodsBoxBox>
                     <MarginBox>
                         <MiddleFont>
-                            태그
+                            해시 태그
                         </MiddleFont>
                     </MarginBox>
-
-                    {DetailData.Hashtags.map((hashTag, key) => {
-                        return (
-                            <TagBox>
-                                <FontYellow key={key}>
-                                    # {hashTag.hashtag}
-                                </FontYellow>
-                            </TagBox>)
-                    })}
-
+                    <HashTag>
+                        {DetailData.Hashtags.map((hashTag, key) => {
+                            return (
+                                <TagBox>
+                                    <FontYellow key={key}>
+                                        # {hashTag.hashtag}
+                                    </FontYellow>
+                                </TagBox>
+                            )
+                        })}
+                    </HashTag>
+                    <ProgressBar/>
 
                     <StoryVote DetailData={DetailData} vote={vote}/>
                     <LikeBox>
@@ -222,20 +336,42 @@ const StoryDetail = () => {
                     <LikeBtn>
                         <StoryLike id={DetailData.id} like={like}/>
                     </LikeBtn>
-                    <Text>
-                        스토리 목표 : {DetailData.story_goal}
-                        스토리 투표수 : {DetailData.story_vote}
-                    </Text>
 
                 </StoryContentStyle>
+
+                <MarginBox>
+                    <MiddleFont>
+                        댓글
+                    </MiddleFont>
+                </MarginBox>
+                <CommentInput story_id={DetailData.id}/>
+                <CommentStyle>
+                    {CommentData !== [] && CommentData.map((comment, key) => {
+                            return (
+                                <View key={key}>
+                                    <CommentBox>
+                                        <CommentProfile source={{
+                                            uri: comment.User.user_profile
+                                        }}/>
+                                        <OrangeText>{comment.User.nickname}</OrangeText>
+                                        <Text>
+                                            {'\u0020'} {'\u0020'} {'\u0020'} {comment.comment}
+                                        </Text>
+                                    </CommentBox>
+                                </View>
+                            )
+                        }
+                    )}
+
+                </CommentStyle>
+                <CommentPlusBox>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("CommentLoader")}>
+                        <Text>
+                            댓글 더보기
+                        </Text>
+                    </TouchableOpacity>
+                </CommentPlusBox>
             </ScrollBox>
-            <MarginBox>
-                <MiddleFont>
-                    댓글
-                </MiddleFont>
-            </MarginBox>
-            <CommentInput story_id={DetailData.id}/>
-            <CommentLoader id={DetailData.id}/>
         </>
     )
 }

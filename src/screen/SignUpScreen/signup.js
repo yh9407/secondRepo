@@ -8,6 +8,7 @@ import {
     ScrollView,
     StyleSheet, Button
 } from "react-native";
+import IP from "../../../Ip";
 import Images from "../../../public/pictures";
 import styled from 'styled-components';
 
@@ -93,7 +94,7 @@ const SignUp = (props) => {
     };
 
     const signUpHandler = async () => {
-        const result = await axios.post("http://121.144.131.216:3000/auth/signup", {...userInfo})
+        const result = await axios.post(`${IP}/auth/signup`, {...userInfo})
         props.navigation.navigate('SignIn')
     }
     return (

@@ -7,10 +7,12 @@ import {
     Text,
     StyleSheet,
     Button,
+    Animated,
     FlatList,
     TouchableOpacity,
     ActivityIndicator, Dimensions,
 } from 'react-native';
+import IP from "../../../Ip";
 import {useDispatch, useSelector} from "react-redux";
 import {storyLoader} from "../../action/story";
 import TimeSet from "./TimeSet";
@@ -42,17 +44,16 @@ height: 280px;
 `
 const HashTag = styled.View`
 display: flex;
+margin-top: 10px;
+margin-left: 10px;
 flex-direction: row;
-padding: 3px;
-margin-left: 5px;
-width: 100%;
+width: 22%;
 justify-content: space-between;
 `
 const TagBox = styled.View`
-align-items: center;
 `
 const FontYellow = styled.Text`
-font-weight: bold;
+font-size: 18px;
 color: #ffa400;
 `
 
@@ -65,6 +66,8 @@ border-radius: 100px;
 const WriterBox = styled.View`
 display: flex;
 width: 100%;
+flex-direction: row;
+align-items: center;
 margin-left: 10px;
 
 `
@@ -73,7 +76,17 @@ display: flex;
 flex-direction: row-reverse;
 width: 95%;
 margin-left: 10px;
-margin-bottom: 5px;
+margin-bottom: 10px;
+`
+const WriterImage = styled.Image`
+width: 40px;
+height: 40px;
+border-radius: 50px;
+`
+const WriterText = styled.Text`
+margin-left: 10px;
+font-size: 17px;
+color: black;
 `
 const Exam = (props) => {
     const dispatch = useDispatch();
@@ -85,11 +98,11 @@ const Exam = (props) => {
     const [storyType, setStoryType] = useState("hot")
 
     const visitHandler = async (story_id) => {
-        await axios.put("http://121.144.131.216:3000/story/visit", {story_id: story_id})
+        await axios.put(`${IP}/story/visit`, {story_id: story_id})
     }
 
     const getData = async () => {
-        const url = "http://121.144.131.216:3000/story/list/" + page + "?type=" + storyType
+        const url = `${IP}/story/list/` + page + "?type=" + storyType
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -101,9 +114,13 @@ const Exam = (props) => {
         return (
             <StoryStyle key={key}>
                 <WriterBox>
-                    <Text>
-                        {item.user_email}
-                    </Text>
+                    {!item.User.user_profile ? null :
+                        <WriterImage source={{
+                            uri: item.User.user_profile
+                        }}/>}
+                    <WriterText>
+                        {item.User.nickname}
+                    </WriterText>
                 </WriterBox>
                 <TimeBox>
                     <Text>
@@ -126,17 +143,18 @@ const Exam = (props) => {
                         </View>
                     }
                 </TouchableOpacity>
+                <HashTag>
                 {item && item.Hashtags.map((comment, key) => {
                     return (
-                        <HashTag>
+
                             <TagBox key={key}>
                                 <FontYellow>
                                     #{comment.hashtag}
                                 </FontYellow>
                             </TagBox>
-                        </HashTag>
                     )
                 })}
+                </HashTag>
             </StoryStyle>
 
         )

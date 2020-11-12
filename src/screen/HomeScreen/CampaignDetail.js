@@ -3,6 +3,7 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity, Dimensions,
+    Text,
 } from 'react-native';
 import FullWidthPicture from "./FullWidthPicture"
 
@@ -16,11 +17,14 @@ const CampaignDetail = () => {
 console.log(DetailData)
 
     return (
-        <ScrollView style={{flex: 1}}>
-            {DetailData && DetailData !== {} ?
-                <FullWidthPicture uri={DetailData.Campaign_Files[1].file}/>
-                : null}
-        </ScrollView>
+        // <ScrollView style={{flex: 1}}>
+        //     {DetailData && DetailData ?
+        //         <FullWidthPicture uri={DetailData.Campaign_Files[1].file}/>
+        //         : null}
+        // </ScrollView>
+        <Text>
+            아아
+        </Text>
     )
 }
 export default CampaignDetail

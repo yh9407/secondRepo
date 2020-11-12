@@ -1,14 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {
-    View,
-    ScrollView,
-    ImageBackground,
     Image,
-    Button,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity, Dimensions,
 } from 'react-native';
 
 const FullWidthPicture = ({uri}) => {

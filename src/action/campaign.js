@@ -1,4 +1,6 @@
 import axios from 'axios'
+import IP from "../../Ip"
+
 import {
     TALK_DETAIL_FAILURE,
     TALK_DETAIL_LOAD,
@@ -23,7 +25,7 @@ export const campaignDetailLoadFailure = () => {
 export const campaignDetailLoader = (id) => async (dispatch) => {
     dispatch(campaignDetailLoadStart());
     await axios
-        .get(`http://121.144.131.216:3000/campaign/${id}`)
+        .get(`${IP}/campaign/${id}`)
         .then((response) => {
             dispatch(campaignDetailLoadSuccess(response.data.data));
         })

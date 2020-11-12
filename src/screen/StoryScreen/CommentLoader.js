@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
 import {useDispatch, useSelector} from "react-redux";
+import IP from "../../../Ip";
 import {
     View,
     Text,
@@ -19,7 +20,7 @@ padding: 20px 10px 10px 20px;
 const CommentBox = styled.View`
 display: flex;
 width: 80%;
-height: 60px;
+height: 40px;
 margin-bottom: 10px;
 flex-direction: row;
 
@@ -41,16 +42,19 @@ const CommentLoader = ({id}) => {
     const [data, setData] = useState([])
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+    const DetailData = useSelector((state) => state.story.story.data)
 
     const getCommentData = async () => {
-        console.log(page)
-        const url = `http://121.144.131.216:3000/comment/list/${id}/${page}`
+        const url = `${IP}/comment/list/${DetailData.id}/${page}`
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(responseJson)
+
                 setData(data.concat(responseJson.list))
             })
     }
+
     const renderRow = ({item, key}) => {
         return (
             <View key={key}>
@@ -66,7 +70,6 @@ const CommentLoader = ({id}) => {
                             </Text>
                         </CommentBox>
                     </View>
-
                 </CommentStyle>
             </View>
         )

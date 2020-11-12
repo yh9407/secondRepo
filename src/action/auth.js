@@ -1,4 +1,5 @@
 import axios from "axios";
+import IP from "../../Ip"
 
 export const AUTH_SIGNIN = "AUTH_SIGNIN";
 export const AUTH_SIGNIN_SUCCESS = "AUTH_SIGNIN_SUCCESS";
@@ -29,7 +30,7 @@ export const signOutFailure = () => {
 export const signInRequest = (user) => async (dispatch) => {
     dispatch(signInStart());
     await axios
-        .post("http://121.144.131.216:3000/auth/signIn", {...user})
+        .post(`${IP}/auth/signIn`, {...user})
         .then((response) => {
             if (response.data.success === 1) {
                 dispatch(signInSuccess(response.data));
@@ -42,7 +43,7 @@ export const signInRequest = (user) => async (dispatch) => {
 export const signOutRequest = () => async (dispatch) => {
     dispatch(signOutStart());
     await axios
-        .post("http://121.144.131.216:3000/auth/signOut")
+        .post(`${IP}/auth/signOut`)
         .then((response) => {
             dispatch(signOutSuccess())
         })

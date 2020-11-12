@@ -7,6 +7,7 @@ import {
     TouchableOpacity, Dimensions,
     ActivityIndicator
 } from 'react-native';
+import IP from "../../../Ip"
 import {useDispatch} from "react-redux";
 import styled from 'styled-components';
 import axios from "axios"
@@ -17,7 +18,7 @@ import Time from "./Time";
 const ActStyle = styled.View`
 display: flex;
 width: 100%;
-margin-top: 20px;
+margin-top: 40px;
 `
 const ActHeader = styled.View`
 display: flex;
@@ -74,11 +75,11 @@ const ActList = (props) => {
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
     const visitHandler = async (act_id) => {
-        await axios.put("http://121.144.131.216:3000/act/visit", {act_id: act_id})
+        await axios.put(`${IP}/act/visit`, {act_id: act_id})
     }
 
     const getData = async () => {
-        const url = "http://121.144.131.216:3000/act/list/" + page
+        const url = `${IP}/act/list/` + page
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

@@ -7,7 +7,7 @@ import {signInRequest} from "../../action/auth";
 import {useSelector} from "react-redux";
 import styled from 'styled-components';
 import Images from "../../../public/pictures";
-
+import IP from "../../../Ip"
 const SignInStyle = styled.View`
 display: flex;
 width: 100%;

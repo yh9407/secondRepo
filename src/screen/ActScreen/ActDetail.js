@@ -1,8 +1,8 @@
 import React from "react"
 import {
     View,
-    Button,
     Text,
+    ScrollView,
 } from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import styled from 'styled-components';
@@ -63,8 +63,7 @@ const Line = styled.View`
 display: flex;
 width: 100%;
 border-bottom-color: orange;
-border-bottom-width: 2px;
-margin-bottom: 20px;
+border-bottom-width: 1px;
 `
 const MiddleFont = styled.Text`
 font-size: 18px;
@@ -85,6 +84,7 @@ const ActDetail = () => {
     const DetailData = useSelector((state) => state.act.act.data)
     console.log(DetailData)
     return (
+        <ScrollView>
         <ActContentStyle>
             <ActTitle>
                 <TextTitle>
@@ -123,9 +123,8 @@ const ActDetail = () => {
                     {DetailData.act_content}
                 </ContentText>
             </ActContents>
-
         </ActContentStyle>
-
+        </ScrollView>
     )
 }
 export default ActDetail;

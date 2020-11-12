@@ -1,4 +1,5 @@
 import axios from 'axios'
+import IP from "../../Ip"
 
 export const TALK_DETAIL_LOAD = "TALK_DETAIL_LOAD";
 export const TALK_DETAIL_SUCCESS = "TALK_DETAIL_SUCCESS";
@@ -16,7 +17,7 @@ export const talkDetailLoadFailure = () => {
 export const talkDetailLoader = (id) => async (dispatch) => {
     dispatch(talkDetailLoadStart());
     await axios
-        .get(`http://121.144.131.216:3000/talk/${id}`)
+        .get(`${IP}/talk/${id}`)
         .then((response) => {
             dispatch(talkDetailLoadSuccess(response.data.data));
         })

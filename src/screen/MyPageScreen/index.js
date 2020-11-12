@@ -6,9 +6,7 @@ import {
     StyleSheet,
 } from 'react-native';
 import styled from 'styled-components';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useSelector} from "react-redux";
-import {Image} from "react-native-paper/src/components/Avatar/Avatar";
 
 
 const ImageBox = styled.View`

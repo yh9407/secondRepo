@@ -1,4 +1,5 @@
 import axios from 'axios'
+import IP from "../../Ip"
 
 export const COMMENT_ADD = "COMMENT_ADD";
 export const COMMENT_ADD_SUCCESS = "COMMENT_ADD_SUCCESS";
@@ -18,7 +19,7 @@ export const commentAdd = (data) => async (dispatch) => {
     console.log(data)
     dispatch(commentAddStart());
     await axios
-        .post("http://121.144.131.216:3000/comment/add", {...data})
+        .post(`${IP}/comment/add`, {...data})
         .then((response) => {
             console.log(response)
             dispatch(commentAddSuccess());

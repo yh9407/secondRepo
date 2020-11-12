@@ -27,6 +27,7 @@ import SignUp from "./screen/SignUpScreen/signup";
 import CampaignDetail from "./screen/HomeScreen/CampaignDetail";
 import CampaignList from "./screen/HomeScreen/CampaignList";
 import ListItem from "./screen/HomeScreen/ListItem";
+import CommentLoader from "./screen/StoryScreen/CommentLoader";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -141,7 +142,7 @@ function AppStack() {
                     <Stack.Screen name="CampaignDetail" component={CampaignDetail}/>
                     <Stack.Screen name="CampaignList" component={CampaignList}/>
                     <Stack.Screen name="ListItem" component={ListItem}/>
-
+                    <Stack.Screen name="CommentLoader" component={CommentLoader}/>
                 </Stack.Navigator>
             </NavigationContainer>
 
