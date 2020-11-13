@@ -18,53 +18,51 @@ import Time from "./Time";
 const ActStyle = styled.View`
 display: flex;
 width: 100%;
-margin-top: 40px;
+margin-top: 20px;
 `
-const ActHeader = styled.View`
-display: flex;
-width: 100%;
-height: 30px;
-align-items: center;
-margin-top: 12px;
-margin-bottom: 12px;
-`
-const HeaderText = styled.Text`
-font-weight: bold;
-color: orange;
-font-size: 25px;
-`
-
 const ListFrame = styled.FlatList`
 display: flex;
 `
-
+const ListTitleBox = styled.View`
+display: flex;
+width: 100%;
+`
 const ListTitle = styled.Text`
 font-size: 20px;
 margin-left: 10px;
 `
 const ContentBox = styled.View`
+display: flex;
+width: 100%;
+margin-top: 35px;
+margin-left: 15px;
+
 `
 const ListContent = styled.Text`
-font-size: 15px;
+font-size: 17px;
 `
 const ListSection = styled.TouchableOpacity`
 display: flex;
 padding: 15px 10px 15px 10px;
 border-style: solid;
-height: 280px;
+height: 300px;
 border-bottom-color: black;
 `
-const Line = styled.View`
+const LineBox = styled.View`
 display: flex;
 width: 100%;
-border-bottom-color: orange;
-border-bottom-width: 1.5px;
+align-items: center;
+margin-bottom: 20px;
 `
-
+const Line = styled.View`
+width: 89%;
+border-bottom-color: orange;
+border-bottom-width: 0.9px;
+`
 const TimeBox = styled.View`
 display: flex;
-width: 100%;
-margin-left: 10px;
+flex-direction: row-reverse;
+width: 96%;
 `
 const {height} = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.5;
@@ -89,12 +87,12 @@ const ActList = (props) => {
     const renderRow = ({item, key}) => {
         return (
             <ActStyle key={key}>
+                <ListTitle>
+                    {item.act_title}
+                </ListTitle>
                 <TimeBox>
                     <Time created={item.created_at}/>
                 </TimeBox>
-                <ListTitle>
-                      {item.act_title}
-                </ListTitle>
                 <ListSection onPress={async () => {
                     await dispatch(actDetailLoader(item.id))
                     if (item.id !== undefined) {
@@ -113,7 +111,9 @@ const ActList = (props) => {
                         </ListContent>
                     </ContentBox>
                 </ListSection>
-                <Line/>
+                <LineBox>
+                    <Line/>
+                </LineBox>
             </ActStyle>
         )
     }
@@ -139,7 +139,6 @@ const ActList = (props) => {
     }, [page])
     return (
         <View>
-            <Line/>
             <ListFrame
                 getItemLayout={getItemLayout}
                 data={data}

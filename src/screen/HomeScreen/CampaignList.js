@@ -3,9 +3,13 @@ import {View, ScrollView, Dimensions, Text, StyleSheet, Image,TouchableOpacity} 
 import {useDispatch} from "react-redux";
 import {campaignDetailLoader} from "../../action/campaign";
 import IP from "../../../Ip"
+import styled from 'styled-components';
 
 const {width, height} = Dimensions.get('window')
 
+const CampaignImage=styled.Image`
+height: 400px;
+`
 const CampaignList = ({props}) => {
     const [data, setData] = useState([])
     const dispatch = useDispatch();
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     cardView: {
         flex: 1,
         width: width - 20,
-        height: height / 3,
+        height: height / 2.2,
         backgroundColor: 'white',
         margin: 10,
         borderRadius: 10,
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: width - 20,
-        height: height / 3,
+        height: height / 2.2,
         borderRadius: 10,
     },
     itemTitle: {

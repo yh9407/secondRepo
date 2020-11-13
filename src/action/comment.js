@@ -16,12 +16,10 @@ export const commentAddFailure = () => {
 };
 
 export const commentAdd = (data) => async (dispatch) => {
-    console.log(data)
     dispatch(commentAddStart());
     await axios
         .post(`${IP}/comment/add`, {...data})
         .then((response) => {
-            console.log(response)
             dispatch(commentAddSuccess());
         })
         .catch((error) => {

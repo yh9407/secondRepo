@@ -38,17 +38,18 @@ margin-right: 10px;
 border-radius: 100px;
 `
 
-const CommentLoader = ({id}) => {
+const TalkCommentLoader = ({id}) => {
     const [data, setData] = useState([])
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
-    const DetailData = useSelector((state) => state.story.story.data)
-
+    const DetailData = useSelector((state) => state.talk.talk.data)
+console.log(DetailData)
     const getCommentData = async () => {
-        const url = `${IP}/comment/list/${DetailData.id}/${page}`
+        const url = `${IP}/talk_comment/list/${DetailData.id}/${page}`
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(responseJson)
                 setData(data.concat(responseJson.list))
             })
     }
@@ -107,6 +108,6 @@ const CommentLoader = ({id}) => {
         </View>
     )
 }
-export default CommentLoader;
+export default TalkCommentLoader;
 
 

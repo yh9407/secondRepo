@@ -51,6 +51,7 @@ width: 22%;
 justify-content: space-between;
 `
 const TagBox = styled.View`
+margin-left: 10px;
 `
 const FontYellow = styled.Text`
 font-size: 18px;
@@ -88,6 +89,17 @@ margin-left: 10px;
 font-size: 17px;
 color: black;
 `
+const LineBox = styled.View`
+display: flex;
+margin-top: 30px;
+width: 100%;
+align-items: center;
+`
+const Line = styled.View`
+width: 89%;
+border-bottom-color: orange;
+border-bottom-width: 0.9px;
+`
 const Exam = (props) => {
     const dispatch = useDispatch();
     const [data, setData] = useState([])
@@ -119,6 +131,7 @@ const Exam = (props) => {
                             uri: item.User.user_profile
                         }}/>}
                     <WriterText>
+
                         {item.User.nickname}
                     </WriterText>
                 </WriterBox>
@@ -155,6 +168,9 @@ const Exam = (props) => {
                     )
                 })}
                 </HashTag>
+                <LineBox>
+                <Line/>
+                </LineBox>
             </StoryStyle>
 
         )

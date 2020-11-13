@@ -47,8 +47,8 @@ export const storyLoadFailure = () => {
 export const storyCommentLoadStart = () => {
     return {type: STORY_COMMENT_LOAD}
 }
-export const storyCommentLoadSuccess = (list) => {
-    return {type: STORY_COMMENT_LOAD_SUCCESS, list: list}
+export const storyCommentLoadSuccess = (data) => {
+    return {type: STORY_COMMENT_LOAD_SUCCESS, data: data}
 }
 export const storyCommentLoadFailure = () => {
     return {type: STORY_COMMENT_LOAD_FAILURE}
@@ -103,7 +103,7 @@ export const storyCommentLoader = (commentId) => async (dispatch) => {
     await axios
         .get(`${IP}/comment/list/${commentId}/1`)
         .then((response) => {
-            dispatch(storyCommentLoadSuccess(response.data.list))
+            dispatch(storyCommentLoadSuccess(response.data))
         })
         .catch((error) => {
             dispatch(storyCommentLoadFailure());

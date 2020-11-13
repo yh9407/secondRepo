@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import {Card} from "react-native-paper";
 
 const ActContentStyle = styled.View`
-margin-top: 30px;
 width: 100%;
 display: flex;
 `
@@ -86,12 +85,12 @@ const ActDetail = () => {
     return (
         <ScrollView>
         <ActContentStyle>
-            <ActTitle>
-                <TextTitle>
-                    {DetailData.act_title}의 소식입니다.
-                </TextTitle>
-            </ActTitle>
-            <Line/>
+            {/*<ActTitle>*/}
+            {/*    <TextTitle>*/}
+            {/*        {DetailData.act_title}의 소식입니다.*/}
+            {/*    </TextTitle>*/}
+            {/*</ActTitle>*/}
+            {/*<Line/>*/}
                 <ActImage source={{
                     uri: DetailData.Act_Files[0].file
                 }}/>

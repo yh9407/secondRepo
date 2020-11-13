@@ -9,6 +9,9 @@ const Images = {
     },
     signUp:{
         hugImg : require("./signUp.jpg")
+    },
+    backImage:{
+        wave: require("./wave.jpg")
     }
 };
 

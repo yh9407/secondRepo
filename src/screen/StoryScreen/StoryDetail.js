@@ -19,6 +19,7 @@ import CommentInput from "./CommentInput";
 import StoryVote from "./StoryVote";
 import StoryLike from "./StoryLike";
 import CommentLoader from "./CommentLoader";
+import {SliderBox} from "react-native-image-slider-box";
 
 const ScrollBox = styled.ScrollView`
 width: 100%;
@@ -107,7 +108,7 @@ const LikeBox = styled.View`
 display: flex;
 align-content: flex-end;
 flex-direction: row-reverse;
-width: 100%;
+width: 97%;
 `
 const LikeBtn = styled.View`
 display:flex;
@@ -160,6 +161,7 @@ margin-bottom: 20px;
 align-items: center;
 justify-content: center;
 height: 30px;
+margin-left: 15px;
 `
 const BarStyle = styled.View`
 width: 100%;
@@ -200,15 +202,25 @@ const StoryDetail = (props) => {
     const DetailData = useSelector((state) => state.story.story.data)
     const vote = useSelector((state) => state.story.vote)
     const like = useSelector((state) => state.story.like)
-    const [enableScrollViewScroll, setEnableScrollViewScroll] = useState(true)
     const CommentData = useSelector((state) => state.story.comment.list);
+    const CommentTotal = useSelector((state) => state.story.comment.total);
     const CommentStatus = useSelector((state) => state.comment.comment.status);
+    const [list, setList] = useState([])
 
     const fadeAnim = useRef(new Animated.Value(0)).current
 
+    const ImageListHandler = async () => {
+        let newList = [];
+        for (const file of DetailData.Story_Files) {
+            newList.push(file.file)
+        }
+        setList(newList)
+    }
     const ProgressBar = () => {
         let ratio = (DetailData.story_vote / DetailData.story_goal) * 100;
         if (ratio > 100) ratio = 100;
+
+        console.log(CommentTotal)
         return (
             <>
                 <BarStyle>
@@ -231,9 +243,9 @@ const StoryDetail = (props) => {
             </>
         )
     }
-
     useEffect(() => {
         dispatch(storyCommentLoader(DetailData.id))
+        ImageListHandler()
         Animated.timing(
             fadeAnim,
             {
@@ -243,17 +255,16 @@ const StoryDetail = (props) => {
             }
         ).start();
     }, [fadeAnim, DetailData.id, vote.user, CommentStatus])
-
     return (
         <>
             <ScrollBox>
                 <StoryContentStyle>
-                    <StoryTitle>
-                        <TextTitle>
-                            {DetailData.Story_Items[0].item_name}{'\u0020'}{'\u0020'}{'\u0020'}
-                        </TextTitle>
-                    </StoryTitle>
-                    <Line/>
+                    {/*<StoryTitle>*/}
+                    {/*    <TextTitle>*/}
+                    {/*        {DetailData.Story_Items[0].item_name}{'\u0020'}{'\u0020'}{'\u0020'}*/}
+                    {/*    </TextTitle>*/}
+                    {/*</StoryTitle>*/}
+                    {/*<Line/>*/}
                     <StoryWriter>
                         <SmallFont>
                             {DetailData.User.nickname} 님
@@ -272,9 +283,13 @@ const StoryDetail = (props) => {
                         </InfoBox>
                     </WriterInfo>
                     <Card>
-                        <Card.Cover source={{
-                            uri: DetailData.Story_Files[0].file
-                        }}/>
+                        <SliderBox
+                            dotColor="orange"
+                            sliderBoxHeight={300}
+                            autoplay={true}
+                            circleLoop={true}
+                            images={list}
+                        />
                     </Card>
                     <MarginBox>
                         <MiddleFont>
@@ -341,7 +356,7 @@ const StoryDetail = (props) => {
 
                 <MarginBox>
                     <MiddleFont>
-                        댓글
+                        댓글 {CommentTotal}개
                     </MiddleFont>
                 </MarginBox>
                 <CommentInput story_id={DetailData.id}/>
@@ -365,11 +380,13 @@ const StoryDetail = (props) => {
 
                 </CommentStyle>
                 <CommentPlusBox>
-                    <TouchableOpacity onPress={() => props.navigation.navigate("CommentLoader")}>
-                        <Text>
-                            댓글 더보기
-                        </Text>
-                    </TouchableOpacity>
+                    {CommentTotal <= 10 ? null :
+                        <TouchableOpacity onPress={() => props.navigation.navigate("CommentLoader")}>
+                            <Text>
+                                댓글 더보기
+                            </Text>
+                        </TouchableOpacity>
+                    }
                 </CommentPlusBox>
             </ScrollBox>
         </>

@@ -7,15 +7,16 @@ import SignIn from "./screen/SignUpScreen/signin";
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import FlatListPractice from "./screen/StoryScreen/flatListPractice"
+import styled from 'styled-components';
+
 import {
     createDrawerNavigator,
     DrawerContentScrollView,
     DrawerItemList,
 } from '@react-navigation/drawer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {View, Text} from 'react-native';
+import {View, Text,Image} from 'react-native';
 import {useSelector} from "react-redux";
-import {Image} from "react-native-paper/src/components/Avatar/Avatar";
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import StoryDetail from "./screen/StoryScreen/StoryDetail";
 import Exam from "./screen/StoryScreen/Exam";
@@ -28,10 +29,28 @@ import CampaignDetail from "./screen/HomeScreen/CampaignDetail";
 import CampaignList from "./screen/HomeScreen/CampaignList";
 import ListItem from "./screen/HomeScreen/ListItem";
 import CommentLoader from "./screen/StoryScreen/CommentLoader";
+import TalkCommentLoader from "./screen/TalkScreen/TalkCommentLoader";
+import Images from "../public/pictures";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
+const NavTitleBox = styled.View`
+display: flex;
+width: 100%;
+`
+const NavTitleText = styled.Text`
+font-size: 24px;
+font-style: italic;
+margin-left: 10px;
+color: #febb6c;
+`
+const DetailNavText = styled.Text`
+font-size: 20px;
+font-style: italic;
+color: black;
+`
 
 
 function CustomDrawerContent(props) {
@@ -55,7 +74,7 @@ function CustomDrawerContent(props) {
     );
 }
 
-function DrawerData() {
+function DrawerData(props) {
     const signInData = useSelector((state) => state.auth.user)
     return (
         <View>
@@ -66,7 +85,7 @@ function DrawerData() {
     )
 }
 
-function DrawerNav() {
+function DrawerNav(props) {
     const signInData = useSelector((state) => state.auth.user)
 
     return (
@@ -79,13 +98,13 @@ function DrawerNav() {
     )
 }
 
-function BottomTabNav() {
+function BottomTabNav(props) {
     return (
         <Tab.Navigator
             initialRouteName="Home"
             activeColor="#000000"
             inactiveColor="#e24656"
-            barStyle={{backgroundColor: '#f7c231'}}
+            barStyle={{backgroundColor: '#fee3c6'}}
         >
             <Tab.Screen name="Home" component={HomeScreen}
                         options={{
@@ -117,32 +136,126 @@ function BottomTabNav() {
     )
 }
 
-function AppStack() {
+function AppStack(props) {
+    const StoryDetailData = useSelector((state) => state.story.story.data)
     const signInData = useSelector((state) => state.auth.user)
+    const ActDetailData = useSelector((state) => state.act.act.data)
+    const TalkDetailData = useSelector((state) => state.talk.talk.data)
+
     return (
         <>
             <NavigationContainer>
                 <Stack.Navigator
-                    screenOptions={{ headerStyle: { backgroundColor: 'orange' } }}>
-                    {signInData.isLoggedIn ? <Stack.Screen name="HUG US" component={DrawerNav}/>
+                    screenOptions={{
+                    }}>
+                    {signInData.isLoggedIn ? <Stack.Screen name="HUG US" component={DrawerNav}
+                                                           options={{
+                                                               headerTitle: (props) => (
+                                                                   <NavTitleBox>
+                                                                       <NavTitleText>
+                                                                           Hugus
+                                                                       </NavTitleText>
+                                                                   </NavTitleBox>
+                                                               )
+                                                           }}
+                        />
                         : <Stack.Screen name="SignIn" component={SignIn}
-                                        options={{title: "로그인화면"}}/>}
-                    <Stack.Screen name="Home" component={BottomTabNav}/>
-                    <Stack.Screen name="SignUp" component={SignUp}/>
-                    {/*<Stack.Screen name="Story" component={StoryScreen}/>*/}
-                    <Stack.Screen name="StoryDetail" component={StoryDetail}/>
-                    <Stack.Screen name="FlatListPractice" component={FlatListPractice}/>
-                    <Stack.Screen name="Exam" component={Exam} options={{
-                        title:"STORY"
+                                        options={{
+                                            headerTitle: (props) => (
+                                                <NavTitleBox>
+                                                    <NavTitleText>
+                                                        로그인
+                                                    </NavTitleText>
+                                                </NavTitleBox>
+                                            )
+                                        }}/>}
+                    <Stack.Screen name="Home" component={BottomTabNav} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <NavTitleText>
+                                    Hugus
+                                </NavTitleText>
+                            </NavTitleBox>
+                        )
                     }}/>
-                    <Stack.Screen name="ActList" component={ActList}/>
-                    <Stack.Screen name="ActDetail" component={ActDetail}/>
-                    <Stack.Screen name="TalkList" component={TalkList}/>
-                    <Stack.Screen name="TalkDetail" component={TalkDetail}/>
-                    <Stack.Screen name="CampaignDetail" component={CampaignDetail}/>
-                    <Stack.Screen name="CampaignList" component={CampaignList}/>
-                    <Stack.Screen name="ListItem" component={ListItem}/>
-                    <Stack.Screen name="CommentLoader" component={CommentLoader}/>
+                    <Stack.Screen name="SignUp" component={SignUp} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <NavTitleText>
+                                    회원가입
+                                </NavTitleText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="StoryDetail" component={StoryDetail}  options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <DetailNavText>
+                                    {StoryDetailData.story_title}
+                                </DetailNavText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="Exam" component={Exam} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <NavTitleText>
+                                    Hugus Story
+                                </NavTitleText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="ActList" component={ActList} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <NavTitleText>
+                                    Hugus Act
+                                </NavTitleText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="ActDetail" component={ActDetail} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <DetailNavText>
+                                    ' {ActDetailData.act_title} '의 소식입니다.
+                                </DetailNavText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="TalkList" component={TalkList} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <NavTitleText>
+                                    Hugus Talk
+                                </NavTitleText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="TalkDetail" component={TalkDetail} options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <DetailNavText>
+                                    {TalkDetailData.talk_title}
+                                </DetailNavText>
+                            </NavTitleBox>
+                        )
+                    }}/>
+                    <Stack.Screen name="CampaignDetail" component={CampaignDetail} options={{
+                        title: ""
+                    }}/>
+                    <Stack.Screen name="CampaignList" component={CampaignList} options={{
+                        title: ""
+                    }}/>
+                    <Stack.Screen name="ListItem" component={ListItem} options={{
+                        title: ""
+                    }}/>
+                    <Stack.Screen name="CommentLoader" component={CommentLoader} options={{
+                        title: ""
+                    }}/>
+                    <Stack.Screen name="TalkCommentLoader" component={TalkCommentLoader} options={{
+                        title: ""
+                    }}/>
                 </Stack.Navigator>
             </NavigationContainer>
 

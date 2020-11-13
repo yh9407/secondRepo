@@ -19,6 +19,7 @@ import
 } from '../action/story'
 
 import update from "react-addons-update"
+import act from "./act";
 
 const initialState = {
     story: {
@@ -32,6 +33,7 @@ const initialState = {
     comment: {
         status: "INIT",
         list: [],
+        total:0,
     },
     vote: {
         user: false,
@@ -94,7 +96,8 @@ export default function story(state = initialState, action) {
             return update(state, {
                 comment: {
                     status: {$set: "SUCCESS"},
-                    list: {$set: action.list},
+                    list: {$set: action.data.list},
+                    total:{$set:action.data.total}
                 }
             })
         case STORY_COMMENT_LOAD_FAILURE:

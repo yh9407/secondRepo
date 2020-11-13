@@ -15,11 +15,12 @@ import {useDispatch} from "react-redux";
 import axios from "axios";
 import styled from 'styled-components';
 import {talkDetailLoader} from "../../action/talk";
+import TalkTime from "./TalkTime";
 
 const TalkStyle = styled.View`
 display: flex;
 width: 100%;
-margin-top: 40px;
+margin-top: 20px;
 `
 const ListFrame = styled.FlatList`
 display: flex;
@@ -54,10 +55,27 @@ const ListContentBox = styled.View`
 display: flex;
 width: 300px;
 margin-left: 20px;
-margin-top: 10px;
+margin-top: 30px;
 justify-content: center;
 `
-
+const TimeBox = styled.View`
+display: flex;
+flex-direction: row-reverse;
+width: 77%;
+margin-left: 10px;
+margin-bottom: 10px;
+`
+const LineBox = styled.View`
+display: flex;
+margin-top: 30px;
+width: 100%;
+align-items: center;
+`
+const Line = styled.View`
+width: 89%;
+border-bottom-color: orange;
+border-bottom-width: 0.9px;
+`
 const {height} = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.5;
 
@@ -89,6 +107,11 @@ const TalkList = (props) => {
                     <WriterText>
                         {item.User.nickname}
                     </WriterText>
+                    <TimeBox>
+                        <Text>
+                            <TalkTime At={item.created_at}/>
+                        </Text>
+                    </TimeBox>
                 </WriterBox>
                 <ListSection onPress={async () => {
                     await dispatch(talkDetailLoader(item.id))
@@ -110,6 +133,9 @@ const TalkList = (props) => {
                         </List>
                     </ListContentBox>
                 </ListSection>
+                <LineBox>
+                    <Line/>
+                </LineBox>
             </TalkStyle>
         )
     }

@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import {useDispatch} from "react-redux";
 import {commentAdd} from "../../action/comment";
 import {useSelector} from "react-redux";
+import {talkCommentAdd} from "../../action/talk";
 
 
 const CommentStyle = styled.View`
@@ -55,7 +56,7 @@ border-color: #ffa400;
 border-width: 1px;
 `
 
-const CommentInput = (story_id) => {
+const TalkCommentInput = ({talk_id}) => {
     const [comment, setComment] = useState("")
     const dispatch = useDispatch();
     const signInData = useSelector((state) => state.auth.user)
@@ -66,8 +67,8 @@ const CommentInput = (story_id) => {
         if (comment === "") {
             alert("댓글을 입력하시기 바랍니다.")
         } else {
-            await dispatch(commentAdd({
-                type: "mobile", ...signInData, comment, story_id
+            await dispatch(talkCommentAdd({
+                type: "mobile", ...signInData, comment, talk_id
             }))
             setComment("")
             alert("댓글 등록이 완료되었습니다.")
@@ -93,25 +94,25 @@ const CommentInput = (story_id) => {
                 </CommentBox>
             </CommentStyle>
             <BtnBox>
-            <CommentBtn>
+                <CommentBtn>
 
-            <View>
-                <CommentCancelBth onPress={cancelButton}>
-                <Text>
-                    취소
-                </Text>
-                </CommentCancelBth>
-            </View>
-            <View>
-                <CommentSubmitBth onPress={submitButton}>
-                    <Text>
-                        등록
-                    </Text>
-                </CommentSubmitBth>
-            </View>
-            </CommentBtn>
+                    <View>
+                        <CommentCancelBth onPress={cancelButton}>
+                            <Text>
+                                취소
+                            </Text>
+                        </CommentCancelBth>
+                    </View>
+                    <View>
+                        <CommentSubmitBth onPress={submitButton}>
+                            <Text>
+                                등록
+                            </Text>
+                        </CommentSubmitBth>
+                    </View>
+                </CommentBtn>
             </BtnBox>
         </View>
     )
 }
-export default CommentInput;
+export default TalkCommentInput;
