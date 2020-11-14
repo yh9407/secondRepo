@@ -31,6 +31,7 @@ import ListItem from "./screen/HomeScreen/ListItem";
 import CommentLoader from "./screen/StoryScreen/CommentLoader";
 import TalkCommentLoader from "./screen/TalkScreen/TalkCommentLoader";
 import Images from "../public/pictures";
+import MyStory from "./screen/MyPageScreen/MyStory";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -184,6 +185,7 @@ function AppStack(props) {
                                 <NavTitleText>
                                     회원가입
                                 </NavTitleText>
+
                             </NavTitleBox>
                         )
                     }}/>
@@ -196,6 +198,7 @@ function AppStack(props) {
                             </NavTitleBox>
                         )
                     }}/>
+
                     <Stack.Screen name="Exam" component={Exam} options={{
                         headerTitle: (props) => (
                             <NavTitleBox>
@@ -254,6 +257,9 @@ function AppStack(props) {
                         title: ""
                     }}/>
                     <Stack.Screen name="TalkCommentLoader" component={TalkCommentLoader} options={{
+                        title: ""
+                    }}/>
+                    <Stack.Screen name="MyStory" component={MyStory} options={{
                         title: ""
                     }}/>
                 </Stack.Navigator>

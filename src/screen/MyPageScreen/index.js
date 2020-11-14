@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     View,
     Text,
@@ -6,8 +6,8 @@ import {
     StyleSheet,
 } from 'react-native';
 import styled from 'styled-components';
-import {useSelector} from "react-redux";
-
+import {useSelector,useDispatch} from "react-redux";
+import {myPageRequest} from "../../action/auth";
 
 const ImageBox = styled.View`
 display: flex;
@@ -50,15 +50,23 @@ display: flex;
 width: 50%;
 justify-content: center;
 align-items: center;
-
 `
 
+const MyPageScreen = ({props}) => {
+    const dispatch = useDispatch();
 
-
-const MyPageScreen = ({navigation}) => {
     const signInData = useSelector((state) => state.auth.user)
-    return (
+    const myPageData = useSelector((state) => state.auth.myPage.list)
 
+    const MyPageLoader = () => {
+        dispatch(myPageRequest({type:"mobile",...signInData}))
+    }
+
+    useEffect(() => {
+        MyPageLoader();
+    }, [])
+
+    return (
         <ScrollView>
             <View>
                 <ImageBox>
@@ -74,7 +82,7 @@ const MyPageScreen = ({navigation}) => {
                         <BoxText>기부 건수</BoxText>
                     </DividedBox>
                     <DividedBox>
-                        <BoxText>3 건</BoxText>
+                        <BoxText>{myPageData.totalCount} 건</BoxText>
                     </DividedBox>
                 </BoxDesign>
                 <BoxDesign>
@@ -82,7 +90,8 @@ const MyPageScreen = ({navigation}) => {
                         <BoxText>내가 쓴 글</BoxText>
                     </DividedBox>
                     <DividedBox>
-                        <BoxText>3 건</BoxText>
+
+                        <BoxText>{myPageData.storyList.length} 건</BoxText>
                     </DividedBox>
                 </BoxDesign>
                 <BoxDesign>
@@ -90,7 +99,7 @@ const MyPageScreen = ({navigation}) => {
                         <BoxText>총 후원 금액</BoxText>
                     </DividedBox>
                     <DividedBox>
-                        <BoxText>56,234,000 원</BoxText>
+                        <BoxText>{myPageData.totalValue} 원 </BoxText>
                     </DividedBox>
                 </BoxDesign>
             </TotalBox>

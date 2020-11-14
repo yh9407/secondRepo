@@ -6,15 +6,19 @@ import
     AUTH_SIGNOUT,
     AUTH_SIGNOUT_SUCCESS,
     AUTH_SIGNOUT_FAILURE,
+    MY_PAGE_INFO,
+    MY_PAGE_INFO_SUCCESS,
+    MY_PAGE_INFO_FAILURE,
 } from '../action/auth'
 
 import update from "react-addons-update"
+import act from "./act";
 
 const initialState = {
     signIn: {
         status: "INIT"
     },
-    signOut:{
+    signOut: {
         status: "INIT"
     },
     user: {
@@ -24,6 +28,10 @@ const initialState = {
         phone_number: "",
         profile: "",
         hash_email: "",
+    },
+    myPage: {
+        status: "INIT",
+        list: ""
     }
 }
 export default function auth(state = initialState, action) {
@@ -54,18 +62,38 @@ export default function auth(state = initialState, action) {
                     status: {$set: "FAILURE"}
                 },
             })
+        case MY_PAGE_INFO:
+            return update(state, {
+                myPage: {
+                    status: {$set: "WAITING"}
+                }
+            })
+        case MY_PAGE_INFO_SUCCESS:
+            return update(state, {
+                myPage: {
+                    list:{$set:action.data},
+                    status: {$set: "SUCCESS"}
+                }
+
+            })
+        case MY_PAGE_INFO_FAILURE:
+            return update(state, {
+                myPage: {
+                    status: {$set: "FAILURE"}
+                },
+            })
         case AUTH_SIGNOUT:
-            return update(state,{
-                signOut:{
-                    status:{$set:"WAITING"}
+            return update(state, {
+                signOut: {
+                    status: {$set: "WAITING"}
                 }
             })
         case AUTH_SIGNOUT_SUCCESS:
-            return update(state,{
-                signIn:{
-                    status:{$set:"INIT"}
-        },
-                user:{
+            return update(state, {
+                signIn: {
+                    status: {$set: "INIT"}
+                },
+                user: {
                     isLoggedIn: {$set: false},
                     email: {$set: ""},
                     nickname: {$set: ""},
@@ -73,14 +101,14 @@ export default function auth(state = initialState, action) {
                     phone_number: {$set: ""},
                     profile: {$set: ""},
                 },
-                signOut:{
-                    status:{$set:"SUCCESS"}
+                signOut: {
+                    status: {$set: "SUCCESS"}
                 }
             })
         case AUTH_SIGNOUT_FAILURE:
-            return update(state,{
-                signOut:{
-                    status:{$set:"FAILURE"}
+            return update(state, {
+                signOut: {
+                    status: {$set: "FAILURE"}
                 }
             })
         default:

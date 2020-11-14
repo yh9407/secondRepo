@@ -39,7 +39,7 @@ const CampaignList = ({props}) => {
                             props.navigation.navigate("CampaignDetail")
                         }
                     }}
-                    key={index} style={styles.cardView}>
+                    key={campaign.id} style={styles.cardView}>
                     <Image style={styles.image}
                            source={{
                                uri: campaign.Campaign_Files[0].file

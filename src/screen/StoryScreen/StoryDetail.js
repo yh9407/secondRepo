@@ -259,17 +259,12 @@ const StoryDetail = (props) => {
         <>
             <ScrollBox>
                 <StoryContentStyle>
-                    {/*<StoryTitle>*/}
-                    {/*    <TextTitle>*/}
-                    {/*        {DetailData.Story_Items[0].item_name}{'\u0020'}{'\u0020'}{'\u0020'}*/}
-                    {/*    </TextTitle>*/}
-                    {/*</StoryTitle>*/}
-                    {/*<Line/>*/}
-                    <StoryWriter>
-                        <SmallFont>
-                            {DetailData.User.nickname} 님
-                        </SmallFont>
-                    </StoryWriter>
+                    {!DetailData.User.nickname ? null :
+                        <StoryWriter>
+                            <SmallFont>
+                                {DetailData.User.nickname} 님
+                            </SmallFont>
+                        </StoryWriter>}
                     <MarginBox>
                         <MiddleFont>
                             작성자 소개
@@ -328,10 +323,10 @@ const StoryDetail = (props) => {
                         </MiddleFont>
                     </MarginBox>
                     <HashTag>
-                        {DetailData.Hashtags.map((hashTag, key) => {
+                        {DetailData.Hashtags.map((hashTag, index) => {
                             return (
                                 <TagBox>
-                                    <FontYellow key={key}>
+                                    <FontYellow key={hashTag.Story_Hashtag.hashtag_id}>
                                         # {hashTag.hashtag}
                                     </FontYellow>
                                 </TagBox>
@@ -363,7 +358,7 @@ const StoryDetail = (props) => {
                 <CommentStyle>
                     {CommentData !== [] && CommentData.map((comment, key) => {
                             return (
-                                <View key={key}>
+                                <View key={comment.id}>
                                     <CommentBox>
                                         <CommentProfile source={{
                                             uri: comment.User.user_profile

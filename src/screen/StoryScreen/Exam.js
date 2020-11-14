@@ -124,16 +124,17 @@ const Exam = (props) => {
 
     const renderRow = ({item, key}) => {
         return (
-            <StoryStyle key={key}>
+            <StoryStyle key={item.id}>
                 <WriterBox>
                     {!item.User.user_profile ? null :
                         <WriterImage source={{
                             uri: item.User.user_profile
                         }}/>}
-                    <WriterText>
 
-                        {item.User.nickname}
-                    </WriterText>
+                    {!item.User.nickname ? null :
+                        <WriterText>
+                            {item.User.nickname}
+                        </WriterText>}
                 </WriterBox>
                 <TimeBox>
                     <Text>
@@ -157,19 +158,19 @@ const Exam = (props) => {
                     }
                 </TouchableOpacity>
                 <HashTag>
-                {item && item.Hashtags.map((comment, key) => {
-                    return (
+                    {item && item.Hashtags.map((comment, key) => {
+                        return (
 
                             <TagBox key={key}>
                                 <FontYellow>
                                     #{comment.hashtag}
                                 </FontYellow>
                             </TagBox>
-                    )
-                })}
+                        )
+                    })}
                 </HashTag>
                 <LineBox>
-                <Line/>
+                    <Line/>
                 </LineBox>
             </StoryStyle>
 
