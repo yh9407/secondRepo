@@ -32,10 +32,10 @@ justify-content: center;
 align-items: center;
 `
 const TitleBox = styled.View`
-width: 35%;
+width: 37%;
 `
 const TitleLine = styled.View`
-width: 50%;
+width: 55%;
 margin-top: 8px;
 border-bottom-color: orange;
 border-bottom-width: 1px;

@@ -3,6 +3,7 @@ import {
     View,
     Text,
     ScrollView,
+    TouchableOpacity,
     StyleSheet,
 } from 'react-native';
 import styled from 'styled-components';
@@ -51,8 +52,14 @@ width: 50%;
 justify-content: center;
 align-items: center;
 `
+const MyWrite = styled.TouchableOpacity`
+display: flex;
+width: 50%;
+justify-content: center;
+align-items: center;
+`
 
-const MyPageScreen = ({props}) => {
+const MyPageScreen = (props) => {
     const dispatch = useDispatch();
 
     const signInData = useSelector((state) => state.auth.user)
@@ -86,13 +93,14 @@ const MyPageScreen = ({props}) => {
                     </DividedBox>
                 </BoxDesign>
                 <BoxDesign>
-                    <DividedBox>
+                    <MyWrite onPress={()=> props.navigation.navigate("MyStory")}>
                         <BoxText>내가 쓴 글</BoxText>
-                    </DividedBox>
-                    <DividedBox>
-
-                        <BoxText>{myPageData.storyList.length} 건</BoxText>
-                    </DividedBox>
+                    </MyWrite>
+                    {!myPageData.storyList ? <BoxText>0 건</BoxText> :
+                        <MyWrite onPress={()=> props.navigation.navigate("MyStory")}>
+                            <BoxText>{myPageData.storyList.length} 건</BoxText>
+                        </MyWrite>
+                    }
                 </BoxDesign>
                 <BoxDesign>
                     <DividedBox>
