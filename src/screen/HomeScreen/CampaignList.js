@@ -57,6 +57,7 @@ const CampaignList = ({props}) => {
         </>
     )
 }
+
 const styles = StyleSheet.create({
     cardView: {
         flex: 1,
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     },
     itemTitle: {
         color: "white",
-        fontSize: 22,
+        fontSize: 16,
         shadowColor: "#000",
         shadowOffset: {width: 0.8, height: 0.8},
         shadowOpacity: 1,

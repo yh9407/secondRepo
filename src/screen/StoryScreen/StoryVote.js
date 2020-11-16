@@ -60,8 +60,9 @@ font-size: 18px;
 color: black;
 `
 
-const StoryVote = ({DetailData, vote}) => {
+const StoryVote = ({DetailData}) => {
     const dispatch = useDispatch();
+    const vote = useSelector((state)=> state.story.vote)
     const voteHandler = () => {
         if (vote.user) {
             dispatch(storyVote(DetailData.id, true));
@@ -69,14 +70,18 @@ const StoryVote = ({DetailData, vote}) => {
             dispatch(storyVote(DetailData.id, false));
         }
     }
+console.log(vote)
+    useEffect(()=>{
+        voteHandler()
+    },[vote.status])
 
     const VoteButton = () => {
         if (vote.user) {
             return (
                 <VoteSection>
                     <UnVoteBtn onPress={voteHandler}
-                             activeOpacity={0.6}
-                             underlayColor="#fc8d7e">
+                               activeOpacity={0.6}
+                               underlayColor="#fc8d7e">
                         <UnVoteTextFont>
                             투표 취소하기
                         </UnVoteTextFont>
@@ -95,6 +100,7 @@ const StoryVote = ({DetailData, vote}) => {
                     </VoteBtn>
                 </VoteSection>
             )
+
         }
     }
     useEffect(() => {

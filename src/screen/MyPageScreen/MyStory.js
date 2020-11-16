@@ -2,9 +2,8 @@ import React, {useEffect} from "react"
 import {useSelector, useDispatch} from "react-redux";
 import styled from 'styled-components';
 import {
-    View,
-    Text,
-    TouchableOpacity,
+    ScrollView,
+    View
 } from 'react-native';
 import axios from "axios";
 import IP from "../../../Ip";
@@ -14,6 +13,7 @@ import {myPageRequest} from "../../action/auth";
 const StoryImage = styled.Image`
 width: 150px;
 height: 150px;
+border-radius: 10px;
 
 
 `
@@ -31,11 +31,11 @@ justify-content: space-between;
 
 `
 const TitleText = styled.Text`
-font-size: 15px;
-color: black;
+font-size: 17px;
 margin-top: 20px;
-margin-left: 10px;
-margin-bottom: 5px;
+margin-left: 15px;
+margin-bottom: 10px;
+color: orange;
 `
 const EaBox = styled.View`
 display: flex;
@@ -71,6 +71,7 @@ const MyStory = (props) => {
         MyPageLoader()
     },[status])
     return (
+        <ScrollView>
         <Box>
             {myPageData && myPageData.storyList.map((item, key) => {
                 return (
@@ -84,9 +85,10 @@ const MyStory = (props) => {
                                     props.navigation.navigate("StoryDetail")
                                 await visitHandler(item.id)
                             }}>
+                                {!item.Story_Files[0] ? null :
                                 <StoryImage source={{
                                     uri: item.Story_Files[0].file
-                                }}/>
+                                }}/>}
                                 <TextBox>
                                     <EaText>
                                         조회수 {item.visited}
@@ -101,8 +103,9 @@ const MyStory = (props) => {
                     </View>
                 )
             })}
-
         </Box>
+        </ScrollView>
     )
 }
+
 export default MyStory

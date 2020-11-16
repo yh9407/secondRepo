@@ -32,10 +32,10 @@ justify-content: center;
 align-items: center;
 `
 const TitleBox = styled.View`
-width: 37%;
+width: 35%;
 `
 const TitleLine = styled.View`
-width: 55%;
+width: 50%;
 margin-top: 8px;
 border-bottom-color: orange;
 border-bottom-width: 1px;
@@ -50,7 +50,7 @@ height: 110px;
 flex-direction: row-reverse;
 `
 const HugText = styled.Text`
-font-size: 22px;
+font-size: 17px;
 color: orange;
 `
 const HugBox = styled.View`
@@ -87,6 +87,7 @@ const HomeScreen = (props) => {
             <ImageBox style={{height: "100%", width: "100%"}}>
                 <ListItem data={data} props={props}/>
             </ImageBox>
+
         </HomeStyle>
             <HugStyle>
                 <HugBox>

@@ -112,6 +112,7 @@ export const storyCommentLoader = (commentId) => async (dispatch) => {
 }
 export const storyVote = (id, status) => async (dispatch) => {
     dispatch(storyVoteStart());
+    console.log(status)
     await axios
         .put(`${IP}/story/vote`, {story_id: id, status: status})
         .then(() => {

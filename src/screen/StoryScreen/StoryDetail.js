@@ -31,23 +31,6 @@ width: 100%;
 display: flex;
 flex-direction: column;
 `
-const StoryTitle = styled.View`
-display: flex;
-width: 100%;
-margin-left: 50px;
-margin-bottom: 15px;
-flex-direction: column;
-`
-
-const Line = styled.View`
-display: flex;
-width: 100%;
-border-bottom-color: orange;
-border-bottom-width: 2px;
-`
-const TextTitle = styled.Text`
-font-size: 30px;
-`
 const StoryWriter = styled.View`
 display: flex;
 width: 90%;
@@ -70,16 +53,12 @@ margin-top: 10px;
 const WriterInfo = styled.View`
 display: flex;
 width: 100%;
-flex-direction: column;
 align-items: center;
 `
 const InfoBox = styled.View`
 display: flex;
 width: 85%;
-height: 40px;
-flex-direction: row;
-align-items: center;
-justify-content: flex-start;
+height: 100px;
 border-style: solid;
 border-color: lightgray;
 border-width: 1px;
@@ -94,14 +73,21 @@ height: 100px;
 const GoodsBox = styled.View`
 display: flex;
 width: 85%;
-height: 80px;
-flex-direction: row;
+height: 100px;
+flex-direction: column;
 padding: 10px;
 background-color: antiquewhite;
 `
-
+const TotalText= styled.Text`
+margin-left: 210px;
+`
+const BoxText= styled.Text`
+font-size: 15px;
+margin-left: 10px;
+margin-top: 8px;
+`
 const FontYellow = styled.Text`
-font-size: 21px;
+font-size: 15px;
 color: #ffa400;
 `
 const LikeBox = styled.View`
@@ -126,7 +112,6 @@ width: 80%;
 height: 60px;
 margin-bottom: 10px;
 flex-direction: row;
-
 `
 const OrangeText = styled.Text`
 color: orange;
@@ -148,12 +133,11 @@ margin-bottom: 50px;
 `
 const HashTag = styled.View`
 display: flex;
-margin-top: 10px;
-margin-left: 30px;
+margin-left: 10px;
+margin-bottom: 10px;
 flex-direction: row;
-width: 29%;
+width: 33%;
 justify-content: space-between;
-
 `
 const TagBox = styled.View`
 display: flex;
@@ -272,9 +256,9 @@ const StoryDetail = (props) => {
                     </MarginBox>
                     <WriterInfo>
                         <InfoBox>
-                            <Text>
-                                {'\u0020'} {'\u0020'}{'\u0020'} {DetailData.user_info}
-                            </Text>
+                            <BoxText>
+                                {DetailData.user_info}
+                            </BoxText>
                         </InfoBox>
                     </WriterInfo>
                     <Card>
@@ -293,9 +277,9 @@ const StoryDetail = (props) => {
                     </MarginBox>
                     <WriterInfo>
                         <InfoBox>
-                            <Text>
-                                {'\u0020'} {'\u0020'}{'\u0020'} {DetailData.story_content}
-                            </Text>
+                            <BoxText>
+                                {DetailData.story_content}
+                            </BoxText>
                         </InfoBox>
                     </WriterInfo>
                     <MarginBox>
@@ -310,10 +294,11 @@ const StoryDetail = (props) => {
                                 물품가격 : {DetailData.Story_Items[0].item_price}원 X
                                 물품갯수 : {DetailData.Story_Items[0].item_quantity}개 )
                             </Text>
-                            <Text>
+
+                            <TotalText>
                                 {'\n'}{'\n'}
                                 합계 {DetailData.Story_Items[0].item_price * DetailData.Story_Items[0].item_quantity}원
-                            </Text>
+                            </TotalText>
 
                         </GoodsBox>
                     </GoodsBoxBox>

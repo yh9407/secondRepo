@@ -259,8 +259,15 @@ function AppStack(props) {
                     <Stack.Screen name="TalkCommentLoader" component={TalkCommentLoader} options={{
                         title: ""
                     }}/>
-                    <Stack.Screen name="MyStory" component={MyStory} options={{
-                        title: ""
+                    <Stack.Screen name="MyStory" component={MyStory}  options={{
+                        headerTitle: (props) => (
+                            <NavTitleBox>
+                                <DetailNavText>
+                                    {signInData.nickname} 님의 스토리 현황입니다.
+                                </DetailNavText>
+                            </NavTitleBox>
+                        )
+
                     }}/>
                 </Stack.Navigator>
             </NavigationContainer>

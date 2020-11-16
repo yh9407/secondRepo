@@ -107,7 +107,7 @@ const MyPageScreen = (props) => {
                         <BoxText>총 후원 금액</BoxText>
                     </DividedBox>
                     <DividedBox>
-                        <BoxText>{myPageData.totalValue} 원 </BoxText>
+                        <BoxText> {myPageData.totalValue} 원 </BoxText>
                     </DividedBox>
                 </BoxDesign>
             </TotalBox>

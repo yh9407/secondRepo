@@ -47,7 +47,7 @@ display: flex;
 margin-top: 10px;
 margin-left: 10px;
 flex-direction: row;
-width: 22%;
+width: 30%;
 justify-content: space-between;
 `
 const TagBox = styled.View`
