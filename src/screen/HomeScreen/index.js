@@ -35,13 +35,13 @@ const TitleBox = styled.View`
 width: 35%;
 `
 const TitleLine = styled.View`
-width: 50%;
+width: 45%;
 margin-top: 8px;
 border-bottom-color: orange;
 border-bottom-width: 1px;
 `
 const TitleText = styled.Text`
-font-size: 20px;
+font-size: 18px;
 `
 const HugStyle = styled.View`
 display: flex;
