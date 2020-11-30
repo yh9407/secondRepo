@@ -201,10 +201,8 @@ const StoryDetail = (props) => {
         setList(newList)
     }
     const ProgressBar = () => {
-        let ratio = (DetailData.story_vote / DetailData.story_goal) * 100;
+        let ratio = ((DetailData.story_vote / DetailData.story_goal) * 100).toFixed(0);
         if (ratio > 100) ratio = 100;
-
-        console.log(CommentTotal)
         return (
             <>
                 <BarStyle>
@@ -238,7 +236,7 @@ const StoryDetail = (props) => {
                 useNativeDriver: true
             }
         ).start();
-    }, [fadeAnim, DetailData.id, vote.user, CommentStatus])
+    }, [fadeAnim, DetailData.id, vote.user,CommentStatus])
     return (
         <>
             <ScrollBox>

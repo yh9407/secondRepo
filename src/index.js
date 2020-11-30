@@ -3,7 +3,7 @@ import HomeScreen from "./screen/HomeScreen";
 import SettingScreen from "./screen/SettingScreen";
 import StoryScreen from "./screen/StoryScreen";
 import MyPageScreen from "./screen/MyPageScreen";
-import SignIn from "./screen/SignScreen/signin";
+import SignIn from "./screen/SignUpScreen/signin";
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import FlatListPractice from "./screen/StoryScreen/flatListPractice"
@@ -24,7 +24,7 @@ import ActList from "./screen/ActScreen/ActList";
 import ActDetail from "./screen/ActScreen/ActDetail";
 import TalkList from "./screen/TalkScreen/TalkList";
 import TalkDetail from "./screen/TalkScreen/TalkDetail";
-import SignUp from "./screen/SignScreen/signup";
+import SignUp from "./screen/SignUpScreen/signup";
 import CampaignDetail from "./screen/HomeScreen/CampaignDetail";
 import CampaignList from "./screen/HomeScreen/CampaignList";
 import ListItem from "./screen/HomeScreen/ListItem";
@@ -66,10 +66,6 @@ function CustomDrawerContent(props) {
                 <Text> {signInData.email}</Text>
                 <Text> {signInData.phone_number}</Text>
             </View> : null}
-
-            <View>
-
-            </View>
             <DrawerItemList {...props} />
         </DrawerContentScrollView>
     );

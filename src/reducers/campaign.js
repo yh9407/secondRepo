@@ -6,7 +6,6 @@ import
 } from "../action/campaign"
 
 import update from "react-addons-update"
-import {TALK_DETAIL_FAILURE, TALK_DETAIL_LOAD, TALK_DETAIL_SUCCESS} from "../action/talk";
 
 const initialState ={
     campaign: {

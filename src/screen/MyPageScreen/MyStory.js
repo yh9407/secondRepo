@@ -1,7 +1,8 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useRef} from "react"
 import {useSelector, useDispatch} from "react-redux";
 import styled from 'styled-components';
 import {
+    Animated,
     ScrollView,
     View
 } from 'react-native';
@@ -9,6 +10,7 @@ import axios from "axios";
 import IP from "../../../Ip";
 import {storyLoader} from "../../action/story";
 import {myPageRequest} from "../../action/auth";
+import ProgressBar from "./ProgressBar";
 
 const StoryImage = styled.Image`
 width: 150px;
@@ -42,7 +44,7 @@ display: flex;
 width: 100%;
 `
 const EaText = styled.Text`
-font-size: 20px;
+font-size: 14px;
 margin-left: 15px;
 margin-top: 25px;
 `
@@ -60,7 +62,6 @@ const MyStory = (props) => {
     const myPageData = useSelector((state) => state.auth.myPage.list)
     const status = useSelector((state) => state.story.story.status)
     const signInData = useSelector((state) => state.auth.user)
-
     const visitHandler = async (story_id) => {
         await axios.put(`${IP}/story/visit`, {story_id: story_id})
     }
@@ -91,11 +92,9 @@ const MyStory = (props) => {
                                 }}/>}
                                 <TextBox>
                                     <EaText>
-                                        조회수 {item.visited}
+                                        후원 현황
                                     </EaText>
-                                    <EaText>
-                                        후원 현황 {item.story_vote} / {item.story_goal}
-                                    </EaText>
+                                    <ProgressBar story_vote={item.story_vote} story_goal={item.story_goal}/>
                                 </TextBox>
                             </ImageBox>
                             <Line/>

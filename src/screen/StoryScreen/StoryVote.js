@@ -70,10 +70,9 @@ const StoryVote = ({DetailData}) => {
             dispatch(storyVote(DetailData.id, false));
         }
     }
-console.log(vote)
     useEffect(()=>{
         voteHandler()
-    },[vote.status])
+    },[])
 
     const VoteButton = () => {
         if (vote.user) {

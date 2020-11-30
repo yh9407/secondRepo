@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     itemTitle: {
-        color: "white",
+        color: "black" +
+            "",
         fontSize: 16,
         shadowColor: "#000",
         shadowOffset: {width: 0.8, height: 0.8},
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     itemDescription: {
-        color: "white",
+        color: "black",
         fontSize: 12,
         shadowColor: "#000",
         shadowOffset: {width: 0.8, height: 0.8},
